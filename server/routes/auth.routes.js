@@ -5,6 +5,7 @@ const Jwt=require("jsonwebtoken")
 const {check,validationResult}=require("express-validator")
 const router=new Router()
 const config=require("config")
+const authMiddleware=require('../middleware/auth.middleware')
 
 router.post("/registration",[check('email',"Uncorrect email").isEmail(), check('password','Password must be longer than 3 and shorter than 12').isLength({min:6,max:12})],async (req, res)=>{
     try{
@@ -31,7 +32,7 @@ router.post("/registration",[check('email',"Uncorrect email").isEmail(), check('
 })
 router.post("/login",async (req, res)=>{
     try{
-        const {nickname,email,password}=req.body;
+        const {email,password}=req.body;
         const user=await User.findOne({email})
         if(!user) {
             return res.status(404).json({message:"User doesn't exist"})
@@ -47,6 +48,25 @@ router.post("/login",async (req, res)=>{
                 id:user.id,
                 nickname:user.nickname,
                 email:user.email,
+            }
+        })
+    } catch (e){
+        console.log(e)
+        res.send({message:"Server error"})
+    }
+})
+router.get("/auth",authMiddleware,async (req, res)=>{
+    try{
+        const user = await User.findOne({_id:req.user.id})
+        const token=Jwt.sign({id:user.id},config.get("secretKey"),{expiresIn:"1h"})
+        return res.json({
+            token,
+            user:{
+                id:user.id,
+                nickname: user.nickname,
+                email: user.email,
+                roles:user.roles,
+                musicAmount:user.musicAmount
             }
         })
     } catch (e){

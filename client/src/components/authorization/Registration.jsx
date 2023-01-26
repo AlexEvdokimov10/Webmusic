@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import './registration.scss'
+import './authorization.scss'
 import Logo from "../../assets/musiclab_logo.svg"
 import {NavLink} from "react-router-dom";
 import Input from "../../utils/input/Input";

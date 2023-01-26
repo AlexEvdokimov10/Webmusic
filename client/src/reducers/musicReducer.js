@@ -1,4 +1,4 @@
-const defaultState={
+const defaultState = {
 
 }
 export default function musicReducer(state=defaultState, action) {
