@@ -1,10 +1,12 @@
 const Router=require("express")
 const User=require("../models/User")
+const Music=require("../models/Music")
 const Bcrypt=require("bcryptjs")
 const Jwt=require("jsonwebtoken")
 const {check,validationResult}=require("express-validator")
 const router=new Router()
 const config=require("config")
+const musicService = require("../services/musicService")
 const authMiddleware=require('../middleware/auth.middleware')
 
 router.post("/registration",[check('email',"Uncorrect email").isEmail(), check('password','Password must be longer than 3 and shorter than 12').isLength({min:6,max:12})],async (req, res)=>{
@@ -21,6 +23,8 @@ router.post("/registration",[check('email',"Uncorrect email").isEmail(), check('
         const hashPassword=await Bcrypt.hash(password,8);
         const user = new User({nickname,email,password:hashPassword})
         await user.save()
+        await musicService.createMusicDir({author:user.id})
+
         return res.json({message:"User was created"})
 
 

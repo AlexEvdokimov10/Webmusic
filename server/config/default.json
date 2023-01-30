@@ -1,5 +1,6 @@
 {
   "serverPort":5000,
   "dbUrl": "mongodb://127.0.0.1:27017/musicdb",
-  "secretKey":"key-loadafafafqtrqg sfafafacacatrtqwtq11515ghehy2bhhbdhleh,l,,]#yyyylylyllyl;yl;6y;t6;t6;t6/;5t';5t';5r4';4"
+  "secretKey":"key-loadafafafqtrqg sfafafacacatrtqwtq11515ghehy2bhhbdhleh,l,,]#yyyylylyllyl;yl;6y;t6;t6;t6/;5t';5t';5r4';4",
+  "musicPath":"D:\\WebMusic\\server\\musics"
 }
