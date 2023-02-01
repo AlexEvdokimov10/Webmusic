@@ -1,5 +1,5 @@
 import axios from "axios";
-import {addMusic , setMusics} from "../reducers/musicReducer";
+import musicReducer , {addMusic , setMusics} from "../reducers/musicReducer";
 
 export function getMusics(){
     return async dispatch =>{
@@ -25,6 +25,22 @@ export function uploadMusic(file){
                 headers : {Authorization: `Bearer ${localStorage.getItem('token')}`}
             });
             dispatch(addMusic(response.data))
+
+        }catch (e){
+            alert(e.response.data.message)
+        }
+    }
+}
+export function deleteMusic(file){
+    return async dispatch=>{
+        try {
+            const response  = await axios.delete(`http://localhost:5000/api/musics?id=${file._id}`, {
+                headers : {
+                    Authorization:`Bearer ${localStorage.getItem("token")}`
+                }
+            })
+            dispatch(deleteMusic(file._id))
+            console.log(response.data.message)
 
         }catch (e){
             alert(e.response.data.message)

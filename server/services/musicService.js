@@ -22,22 +22,9 @@ class MusicService {
             }
         })
     }
-    createMusic(music) {
-
-        const musicPath=`${config.get('musicPath')}\\${music.author}\\${music.path}`
-        return new Promise((resolve,reject)=>{
-            try{
-                if(!fs.existsSync(musicPath)){
-                    fs.mkdirSync(musicPath)
-                    return  resolve({message:'MusicList was add'})
-                } else {
-                    return reject({message: 'MusicList already exist'})
-                }
-            }
-            catch (e){
-                return reject({message:'MusicList error'})
-            }
-        })
+    async deleteMusic(music){
+        const path= music.path
+        fs.unlinkSync(path)
     }
 
 }

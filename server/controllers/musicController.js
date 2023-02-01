@@ -64,5 +64,21 @@ class MusicController {
             return res.status(500).json({message:"Upload error"})
         }
     }
+
+    async deleteMusic(req,res){
+        try {
+            const music= await Music.findOne({_id: req.query.id,author: req.user.id})
+            if(!music){
+                return res.status(400).json({message:'music file not found'})
+            }
+            await musicService.deleteMusic ( music )
+            await music.remove()
+            return res.json({message:'Music was deleted'})
+        }catch (e){
+            console.log(e)
+            return res.status(400).json({message:"music couldn't be deleted"})
+        }
+
+    }
 }
 module.exports=new MusicController()
