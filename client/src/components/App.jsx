@@ -1,12 +1,13 @@
 import Navbar from "./navbar/Navbar";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter , Route , Routes } from "react-router-dom";
 import Registration from "./authorization/Registration";
 import Login from "./authorization/Login";
 import {useDispatch , useSelector} from "react-redux";
 import {useEffect} from "react";
 import {auth} from "../actions/user";
+import MusicDir from "./MusicDir/MusicDir";
 
-function App() {
+const App = () => {
     const isAuth = useSelector ( state => state.user.isAuth )
     const dispatch=useDispatch()
 
@@ -18,10 +19,14 @@ function App() {
         <BrowserRouter>
             <div className="app">
                 <Navbar/>
-                {!isAuth &&
+                {!isAuth ?
                     <Routes>
                         <Route path="/registration" element={ <Registration/> }/>
                         <Route path="/login" element={ <Login/> }/>
+                    </Routes>
+                    :
+                    <Routes>
+                       <Route path="/"  element={<MusicDir/>}/>
                     </Routes>
                 }
             </div>

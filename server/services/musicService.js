@@ -11,10 +11,10 @@ class MusicService {
             try {
                 if (!fs.existsSync ( musicPath )) {
                     fs.mkdirSync ( musicPath )
-                    return resolve ( {message: "Music was add"} )
+                    return resolve ( {message: "MusicList was add"} )
                 }
                 else {
-                    return reject({message: 'Music already exist'})
+                    return reject({message: 'MusicList already exist'})
                 }
             }
             catch (e) {
@@ -29,13 +29,13 @@ class MusicService {
             try{
                 if(!fs.existsSync(musicPath)){
                     fs.mkdirSync(musicPath)
-                    return  resolve({message:'Music was add'})
+                    return  resolve({message:'MusicList was add'})
                 } else {
-                    return reject({message: 'Music already exist'})
+                    return reject({message: 'MusicList already exist'})
                 }
             }
             catch (e){
-                return reject({message:'Music error'})
+                return reject({message:'MusicList error'})
             }
         })
     }

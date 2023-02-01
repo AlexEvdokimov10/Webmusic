@@ -1,5 +1,7 @@
 import axios from "axios"
 import {setUser} from "../reducers/userReducer";
+import {redirect} from "react-router-dom";
+
 
 export const registration = async (nickname,email,password)=>{
     try {

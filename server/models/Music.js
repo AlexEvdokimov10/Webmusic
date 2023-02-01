@@ -9,4 +9,5 @@ const Music=new Schema({
     time:{type:Number,default: 0},
     author:{type:ObjectId, ref:'User'}
 })
+
 module.exports=model("Music",Music)

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React , {useEffect , useState} from 'react';
 import Logo from "../../assets/musiclab_logo.svg";
 import Input from "../../utils/input/Input";
 import {login} from "../../actions/user";
@@ -18,6 +18,7 @@ const Login = () => {
             <button className="auth-button" onClick={() => dispatch(login(email,password))}>Login</button>
             <span className="continue"> <NavLink to="../body" > Lets listen music </NavLink> </span>
         </div>
+
     );
 };
 export default Login;

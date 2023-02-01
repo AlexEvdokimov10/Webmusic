@@ -3,7 +3,7 @@ import "./input.scss"
 
 const Input = (props) => {
     return (
-        <input onChange={ (event) => props.setValue (event.target.value) } value={ props.value } type={ props.type }
+        <input  onChange={ (event) => props.setValue (event.target.value) } value={ props.value } type={ props.type }
                placeholder={ props.placeholder }/>
     );
 };
