@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "jsonwebtoken": "^9.0.0"
+    "jsonwebtoken": "^9.0.0",
+    "node-sass": "^8.0.0"
   }
 }

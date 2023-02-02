@@ -16,4 +16,4 @@ export default function musicReducer(state=defaultState, action) {
 }
 export const setMusics = (musics)=>({type:SET_MUSICS,payload:musics})
 export const addMusic = (music)=>({type:ADD_MUSIC,payload: music})
-export const deleteMusic = (musicId)=>({type:DELETE_MUSIC,payload:musicId})
+export const deleteMusicAction = (musicId)=>({type:DELETE_MUSIC,payload:musicId})

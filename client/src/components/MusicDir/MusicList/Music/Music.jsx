@@ -1,7 +1,10 @@
 import React from 'react';
 import "./music.scss"
 import musicLogo from '../../../../assets/sound-music-logo.png'
-import {deleteMusic} from "../../../../actions/musics";
+import playIcon from '../../../../assets/playIcon.png'
+import downloadIcon from '../../../../assets/downloadIcon.png'
+import deleteIcon from '../../../../assets/deleteIcon.png'
+import {deleteMusic , downloadMusic , getMusic} from "../../../../actions/musics";
 import {useDispatch} from "react-redux";
 
 const Music = ({music}) => {
@@ -12,25 +15,31 @@ const Music = ({music}) => {
         event.stopPropagation()
         dispatch(deleteMusic(music))
     }
+    function downloadClickHandler(event) {
+        event.stopPropagation()
+        downloadMusic ( music )
+    }
+    function playClickHandler(event) {
+        getMusic(music)
+    }
 
     return (
         <div>
-            <div className="card ml-10 ">
+            <div className="card">
                 <span className="music-name">
-                    {music.name.split(".")[0]}
+                    { music.name.split ( "." )[ 0 ] }
                 </span>
                 <div className="content">
-                    <div>
-                    </div>
-                    <div className="card-background br-radius">
-                        <button className="mt-30">
-                            <img className="br-radius m-5" width={ 142 } height={ 142 } src={musicLogo} alt=""/>
-                        </button>
-                    </div>
-                    <div className="d-flex">
-                        <button onClick={ ( event ) => deleteClickHandler ( event ) } className="music-delete btn">delete
-                        </button>
-                    </div>
+
+                        <img className="music-icon" width={ 142 } height={ 142 } src={ musicLogo } alt=""/>
+                        <div className="d-flex">
+                            <img src={downloadIcon} onClick={ ( event ) => downloadClickHandler ( event ) }
+                                 className="music-download btn"/>
+                            <img src={ playIcon } onClick={ ( event ) => playClickHandler ( event ) }
+                                 className="music-play btn"/>
+                            <img src={deleteIcon} onClick={ ( event ) => deleteClickHandler ( event ) }
+                                 className="music-delete btn"/>
+                        </div>
                 </div>
             </div>
         </div>

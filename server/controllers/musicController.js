@@ -64,6 +64,19 @@ class MusicController {
             return res.status(500).json({message:"Upload error"})
         }
     }
+    async downloadMusic(req,res){
+        try {
+            const music = await Music.findOne({_id:req.query.id, author:req.user.id})
+            if(fs.existsSync(music.path)){
+                return res.download(music.path,music.name)
+            }
+            console.log(res.status(400))
+            return res.status(400).json({message:"Download error"})
+        } catch ( e ) {
+            console.log(e)
+            return res.status(500).json({message:"Download error"})
+        }
+    }
 
     async deleteMusic(req,res){
         try {
@@ -77,6 +90,23 @@ class MusicController {
         }catch (e){
             console.log(e)
             return res.status(400).json({message:"music couldn't be deleted"})
+        }
+
+    }
+    async getMusic(req,res){
+        try {
+            const music=await Music.findOne({_id: req.query.id, user: req.user.id})
+            let path=music.path
+            if(fs.existsSync(path)) {
+                return res.download(path,music.name)
+            }
+
+            console.log(res.status(400))
+        }
+        catch (e){
+            console.log(e)
+            return res.status(500).json({message: "Can not get musics"})
+
         }
 
     }

@@ -1,6 +1,7 @@
 import React , {useEffect} from 'react';
 import MusicList from "./MusicList/MusicList";
 import FindLogo from "../../assets/Union.svg"
+import UploadIcon from "../../assets/uploadIcon.png"
 import "./musicDir.scss"
 import {useDispatch , useSelector} from "react-redux";
 import {getMusics , uploadMusic} from "../../actions/musics";
@@ -21,20 +22,21 @@ const MusicDir = () => {
     return (
         <div className="disk">
             <div className="body wrapper clear">
-                <div className="content p40">
-                    <div className="d-flex align-center mb-40">
+                <div className="content">
+                    <div className="align-center">
                         <h1>All Music</h1>
-                        <div className="search-block ml-30 d-flex">
+                        <div className="search-block">
                             <img width={20} height={20} src={FindLogo} alt="Search"/>
-                            <input className="mw-100" placeholder="Search"/>
+                            <input className="find-input" placeholder="Search"/>
                         </div>
                     </div>
                     <MusicList/>
                 </div>
-                <div className="disk_upload">
-                    <label htmlFor="disk_upload-input" className="disk_upload-label">Upload</label>
-                    <label className="file">
-                        <input multiple={true} name="file" aria-label="File browser example" onChange={(event)=>musicUploadHandler(event)} type="file" id="disk_upload-input"  className="disk_upload-input" />
+                <div className="music_upload">
+                    <label htmlFor="music_upload-input" className="music_upload-label">Upload</label>
+                    <label className="music" style={{cursor:"pointer"}}>
+                        <input multiple={true} name="file" style={{visibility:"hidden"}} onChange={(event)=>musicUploadHandler(event)} type="file" id="music_upload-input"  className="music_upload-input" />
+                        <img width={40} height={40} src={UploadIcon} alt="Upload"/>
                     </label>
                 </div>
             </div>

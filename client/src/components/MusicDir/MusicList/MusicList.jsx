@@ -11,7 +11,7 @@ const MusicList = () => {
             <div className="music-list">
                 {musics}
             </div>
-            <audio id="audio" controls className="mt-20">
+            <audio id="audio" controls>
                 <source id="music" type="audio/ogg" />
             </audio>
         </div>

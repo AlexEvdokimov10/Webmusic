@@ -2,6 +2,12 @@
   font-size: 14px;
   font-style: italic;
 }
+.d-flex {
+  display: flex;
+  top: 15%;
+  position: absolute;
+}
+
 .card{
   display: block;
   font-size: 25px;
@@ -9,17 +15,6 @@
   &:hover{
     box-shadow: 0px 20px 30px rgba(0,0,0,0.06);
     transform: translateY(-5px);
-  }
-  button{
-    background: white;
-    border: 0;
-    border-radius: 10%;
-  }
-  .card-background{
-    background: #f4f4f4;
-  }
-  .unliked{
-    margin-left: 130px;
   }
   .btn{
     margin-top: 20px;
@@ -29,7 +24,6 @@
     appearance: none;
     border: 0;
     border-radius: 5px;
-    background: #4676d7;
     color: #fff;
     padding: 8px 16px;
     font-size: 12px;
@@ -40,17 +34,24 @@
     display: none;
   }
   &:hover .music-download{
+    width: 120px;
+    height: 100px;
     display: block;
+
   }
   &:hover .music-delete{
+    width: 120px;
+    height: 100px;
     display: block;
-    margin-left:150px ;
-    background: red;
+  }
+  &:hover .music-icon{
+    margin-left: 100px;
+    opacity: 0.2;
   }
   &:hover .music-play{
+    width: 100px;
+    height: 100px;
     display: block;
-    margin-left:150px ;
-    background: #FFD700;
   }
 
 }
