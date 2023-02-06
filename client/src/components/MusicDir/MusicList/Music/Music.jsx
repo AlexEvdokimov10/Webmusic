@@ -1,13 +1,15 @@
-import React from 'react';
+import React , {useEffect , useState} from 'react';
 import "./music.scss"
 import musicLogo from '../../../../assets/sound-music-logo.png'
 import playIcon from '../../../../assets/playIcon.png'
 import downloadIcon from '../../../../assets/downloadIcon.png'
 import deleteIcon from '../../../../assets/deleteIcon.png'
+import pauseIcon from '../../../../assets/pauseIcon.png'
 import {deleteMusic , downloadMusic , getMusic} from "../../../../actions/musics";
-import {useDispatch} from "react-redux";
+import {useDispatch , useSelector} from "react-redux";
 
 const Music = ({music}) => {
+    const [isPlay, setIsPlay] = useState(false);
 
     const dispatch=useDispatch();
 
@@ -19,9 +21,19 @@ const Music = ({music}) => {
         event.stopPropagation()
         downloadMusic ( music )
     }
-    function playClickHandler(event) {
-        getMusic(music)
+    function playClickHandler() {
+        if(!isPlay) {
+            setIsPlay ( true )
+            getMusic ( music , isPlay )
+        } else {
+            setIsPlay ( false )
+            getMusic ( music , isPlay )
+
+        }
     }
+
+
+
 
     return (
         <div>
@@ -35,7 +47,7 @@ const Music = ({music}) => {
                         <div className="d-flex">
                             <img src={downloadIcon} onClick={ ( event ) => downloadClickHandler ( event ) }
                                  className="music-download btn"/>
-                            <img src={ playIcon } onClick={ ( event ) => playClickHandler ( event ) }
+                            <img src={ isPlay ? pauseIcon : playIcon } onClick={() => playClickHandler()}
                                  className="music-play btn"/>
                             <img src={deleteIcon} onClick={ ( event ) => deleteClickHandler ( event ) }
                                  className="music-delete btn"/>

@@ -1,0 +1,56 @@
+.music-name {
+  font-size: 14px;
+  font-style: italic;
+}
+
+.d-flex {
+  display: flex;
+  top: 15%;
+  position: absolute;
+}
+
+.card {
+  display: block;
+  font-size: 25px;
+}
+.card:hover {
+  box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.06);
+  transform: translateY(-5px);
+}
+.card .btn {
+  margin-top: 20px;
+  display: none;
+  min-width: 100px;
+  font-family: inherit;
+  appearance: none;
+  border: 0;
+  border-radius: 5px;
+  color: #fff;
+  padding: 8px 16px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.card:hover .music-time {
+  display: none;
+}
+.card:hover .music-download {
+  width: 120px;
+  height: 100px;
+  display: block;
+}
+.card:hover .music-delete {
+  width: 120px;
+  height: 100px;
+  display: block;
+}
+.card:hover .music-icon {
+  margin-left: 100px;
+  opacity: 0.2;
+}
+.card:hover .music-play {
+  width: 100px;
+  height: 100px;
+  display: block;
+}
+
+/*# sourceMappingURL=music.css.map */

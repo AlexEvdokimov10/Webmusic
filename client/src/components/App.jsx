@@ -6,6 +6,7 @@ import {useDispatch , useSelector} from "react-redux";
 import {useEffect} from "react";
 import {auth} from "../actions/user";
 import MusicDir from "./MusicDir/MusicDir";
+import EditUser from "./edit-user/EditUser";
 
 const App = () => {
     const isAuth = useSelector ( state => state.user.isAuth )
@@ -26,7 +27,8 @@ const App = () => {
                     </Routes>
                     :
                     <Routes>
-                       <Route path="/"  element={<MusicDir/>}/>
+                        <Route path="/"  element={<MusicDir/>}/>
+                        <Route path="/editUser"  element={<EditUser/>}/>
                     </Routes>
                 }
             </div>

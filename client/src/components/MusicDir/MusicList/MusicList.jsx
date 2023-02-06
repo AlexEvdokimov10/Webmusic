@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useEffect , useState} from 'react';
 import {useSelector} from "react-redux";
 import Music from "./Music/Music";
 import "./musiclist.scss"
@@ -11,9 +11,6 @@ const MusicList = () => {
             <div className="music-list">
                 {musics}
             </div>
-            <audio id="audio" controls>
-                <source id="music" type="audio/ogg" />
-            </audio>
         </div>
     );
 };

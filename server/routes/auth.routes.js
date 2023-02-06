@@ -1,13 +1,15 @@
 const Router=require("express")
 const User=require("../models/User")
-const Music=require("../models/Music")
 const Bcrypt=require("bcryptjs")
 const Jwt=require("jsonwebtoken")
+const fs = require("fs")
+const UUid = require("uuid")
 const {check,validationResult}=require("express-validator")
 const router=new Router()
 const config=require("config")
 const musicService = require("../services/musicService")
 const authMiddleware=require('../middleware/auth.middleware')
+const Role=require("../models/Role")
 
 router.post("/registration",[check('email',"Uncorrect email").isEmail(), check('password','Password must be longer than 3 and shorter than 12').isLength({min:6,max:12})],async (req, res)=>{
     try{
@@ -21,7 +23,8 @@ router.post("/registration",[check('email',"Uncorrect email").isEmail(), check('
             return res.status(400).json({message:`User with email ${email} already exists`})
         }
         const hashPassword=await Bcrypt.hash(password,8);
-        const user = new User({nickname,email,password:hashPassword})
+        const userRole=await Role.findOne({value:"USER"})
+        const user = new User({nickname,email,password:hashPassword,roles:[userRole.value]})
         await user.save()
         await musicService.createMusicDir({author:user.id})
 
@@ -45,7 +48,7 @@ router.post("/login",async (req, res)=>{
         if(!isPassValid){
             return res.status(400).json({message:"Invalid password"})
         }
-        const token=Jwt.sign({id:user.id},config.get("secretKey"),{expiresIn:"1h"})
+        const token=Jwt.sign({id:user.id,roles:user.roles},config.get("secretKey"),{expiresIn:"1h"})
         return res.json({
             token,
             user:{
@@ -70,7 +73,7 @@ router.get("/auth",authMiddleware,async (req, res)=>{
                 nickname: user.nickname,
                 email: user.email,
                 roles:user.roles,
-                musicAmount:user.musicAmount
+                avatar:user.avatar
             }
         })
     } catch (e){
@@ -78,4 +81,49 @@ router.get("/auth",authMiddleware,async (req, res)=>{
         res.send({message:"Server error"})
     }
 })
+
+router.patch('/edit-user', authMiddleware,
+    async (req, res) => {
+        try {
+            await User.updateOne({_id:req.user.id },req.body)
+            return res.json({
+                message:"User was updated"
+            },)
+        } catch (e) {
+            console.log(e)
+            res.send({message: "Server error"})
+        }
+    })
+
+router.post('/avatar',authMiddleware,
+    async (req,res)=>{
+    try {
+        const file = req.files.file
+        const user = await User.findById ( req.user.id )
+        const avatarName = UUid.v4 () + ".jpg"
+        file.mv ( config.get ( 'staticPath' ) + "\\" + avatarName )
+        user.avatar = avatarName
+        await user.save ()
+        return res.json ( user )
+    } catch ( e ) {
+        console.log(e)
+        return res.status(400).json({message:"Upload avatar error"})
+    }
+})
+
+
+router.delete('/avatar',authMiddleware,
+    async (req,res)=>{
+        try {
+            const user = await User.findById ( req.user.id )
+            fs.unlinkSync ( config.get ( 'staticPath' ) + "\\" + user.avatar )
+            user.avatar = null
+            await user.save ()
+            return res.json ( user )
+        } catch ( e ) {
+            console.log(e)
+            return res.status(400).json({message:"Upload avatar error"})
+        }
+    })
+
 module.exports=router

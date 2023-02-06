@@ -19,7 +19,6 @@ input{
   margin-left: 10px;
 }
 .search-block{
-  width: 500px;
   margin-top: 50px;
   display: flex;
 }
@@ -51,4 +50,10 @@ input{
 }
 .music_upload-input:active::before {
   background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+#audio {
+  margin-left: 30%;
+}
+.find-input {
+  width: 30%;
 }

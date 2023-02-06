@@ -70,7 +70,7 @@ export async function downloadMusic(music){
         }
 }
 
-export async function getMusic ( music ) {
+export async function getMusic ( music , isPlay ) {
 
     try {
         const response = await fetch ( `http://localhost:5000/api/musics/get-music?id=${ music._id }` , {
@@ -79,12 +79,18 @@ export async function getMusic ( music ) {
         if ( response.status === 200 ) {
             const blob = await response.blob ()
             const takerUrl = window.URL.createObjectURL ( blob )
-            document.getElementById("music").setAttribute("src",takerUrl)
-            document.getElementById("audio").pause()
-            document.getElementById("audio").load()
-            document.getElementById("audio").$oncanplaythrough = document.getElementById("audio").play()
+            if(!isPlay) {
+                document.getElementById ( "music" ).setAttribute ( "src" , takerUrl )
+                document.getElementById ( "audio" ).pause ()
+                document.getElementById ( "audio" ).load ()
+                document.getElementById ( "audio" ).$oncanplaythrough = document.getElementById ( "audio" ).play ()
+            } else {
+                document.getElementById ( "audio" ).pause ()
+            }
         }
     } catch (e) {
         alert ( e.response.data.message )
     }
 }
+
+

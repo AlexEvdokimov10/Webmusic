@@ -28,6 +28,9 @@ const MusicDir = () => {
                         <div className="search-block">
                             <img width={20} height={20} src={FindLogo} alt="Search"/>
                             <input className="find-input" placeholder="Search"/>
+                            <audio id="audio" controls>
+                                <source id="music" type="audio/ogg" />
+                            </audio>
                         </div>
                     </div>
                     <MusicList/>
