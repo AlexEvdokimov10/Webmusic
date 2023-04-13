@@ -1,36 +1,26 @@
 import Navbar from "./navbar/Navbar";
-import {BrowserRouter , Route , Routes } from "react-router-dom";
-import Registration from "./authorization/Registration";
-import Login from "./authorization/Login";
+import {BrowserRouter} from "react-router-dom";
 import {useDispatch , useSelector} from "react-redux";
-import {useEffect} from "react";
+import {useEffect , useMemo} from "react";
 import {auth} from "../actions/user";
-import MusicDir from "./MusicDir/MusicDir";
-import EditUser from "./edit-user/EditUser";
+import AppRouter from "./routers/AppRouter";
 
 const App = () => {
-    const isAuth = useSelector ( state => state.user.isAuth )
-    const dispatch=useDispatch()
+    const dispatch = useDispatch ()
+    const isAuth = useSelector(state=>state.user.isAuth)
 
-    useEffect(()=>{
-        dispatch(auth())
-    },[])
+
+
+    useEffect( () => {
+        dispatch ( auth () )
+    } , [isAuth])
+
 
     return (
         <BrowserRouter>
             <div className="app">
                 <Navbar/>
-                {!isAuth ?
-                    <Routes>
-                        <Route path="/registration" element={ <Registration/> }/>
-                        <Route path="/login" element={ <Login/> }/>
-                    </Routes>
-                    :
-                    <Routes>
-                        <Route path="/"  element={<MusicDir/>}/>
-                        <Route path="/editUser"  element={<EditUser/>}/>
-                    </Routes>
-                }
+                <AppRouter/>
             </div>
         </BrowserRouter>
     );

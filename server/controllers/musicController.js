@@ -3,7 +3,6 @@ const User = require('../models/User')
 const config = require('config')
 const musicService=require('../services/musicService')
 const fs = require ( "fs" );
-const UUid = require ( "uuid" );
 
 class MusicController {
     async createMusicDir( req , res ) {
@@ -18,7 +17,22 @@ class MusicController {
 
     async fetchMusics( req , res ) {
         try {
-            const musics = await Music.find ( {author: req.user.id} )
+            const {sort}=req.query
+            let musics
+            switch (sort) {
+                case 'name':
+                    musics = await Music.find ( {author: req.user.id} ).sort({name:1})
+                    break
+                case 'type':
+                    musics = await Music.find ( {author: req.user.id} ).sort({type:1})
+                    break
+                case 'date':
+                    musics = await Music.find ( {author: req.user.id} ).sort({date:1})
+                    break
+                default:
+                    musics = await Music.find ( {author: req.user.id} )
+                    break
+            }
             return res.json ( musics )
         } catch ( e ) {
             console.log ( e )
@@ -35,18 +49,17 @@ class MusicController {
             path = `${config.get ( 'musicPath' )}\\${user._id}\\${file.name}`
 
             if (fs.existsSync ( path )) {
-                return res.status ( 400 ).json ( {message: "Music already exist"} )
+                return res.status ( 400 ).json ( {message: "music already exist"} )
             }
 
             const type = file.name.split ( '.' ).pop ()
 
             if (type === "mp3" | type === "wma" | type === "mp2" || type === "amr") {
                 file.mv ( path )
-
+                console.log(file.mtime)
                 const dbMusic = new Music ( {
                     name: file.name ,
                     type: " " ,
-                    time: 0.00 ,
                     size: file.size ,
                     path: path ,
                     author: user._id ,
@@ -86,7 +99,7 @@ class MusicController {
             }
             await musicService.deleteMusic ( music )
             await music.remove ()
-            return res.json ( {message: 'Music was deleted'} )
+            return res.json ( {message: 'music was deleted'} )
         } catch ( e ) {
             console.log ( e )
             return res.status ( 400 ).json ( {message: "music couldn't be deleted"} )
@@ -101,12 +114,24 @@ class MusicController {
             if (fs.existsSync ( path )) {
                 return res.download ( path , music.name )
             }
-
             console.log ( res.status ( 400 ) )
+            return res.status ( 400 ).json ( {message: "Download error"} )
         } catch ( e ) {
             console.log ( e )
             return res.status ( 500 ).json ( {message: "Can not get musics"} )
 
+        }
+    }
+
+    async searchMusic(req,res) {
+        try {
+            const searchName = req.query.search
+            let musics = await Music.find({author:req.user.id})
+            musics=musics.filter(music=>music.name.toLowerCase().includes(searchName.toLowerCase()))
+            return res.json(musics)
+        } catch ( e ) {
+            console.log(e)
+            return res.status(500).json({message:"Search error"})
         }
     }
 }

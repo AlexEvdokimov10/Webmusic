@@ -48,7 +48,6 @@ export const editUser = ( nickname, email) => {
                 const response = await axios.patch ( `http://localhost:5000/api/auth/edit-user` , {nickname,email} ,
                     {headers: {Authorization: `Bearer ${ localStorage.getItem ( 'token' ) }`}}
                 )
-                console.log(response.data.message)
                 dispatch ( editUserAction( response.data) )
             } catch (e) {
                 alert ( e.response.data.message )

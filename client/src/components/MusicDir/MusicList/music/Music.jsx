@@ -7,6 +7,8 @@ import deleteIcon from '../../../../assets/deleteIcon.png'
 import pauseIcon from '../../../../assets/pauseIcon.png'
 import {deleteMusic , downloadMusic , getMusic} from "../../../../actions/musics";
 import {useDispatch , useSelector} from "react-redux";
+import {SettingOutlined} from "@ant-design/icons";
+
 
 const Music = ({music}) => {
     const [isPlay, setIsPlay] = useState(false);
@@ -24,16 +26,11 @@ const Music = ({music}) => {
     function playClickHandler() {
         if(!isPlay) {
             setIsPlay ( true )
-            getMusic ( music , isPlay )
         } else {
             setIsPlay ( false )
-            getMusic ( music , isPlay )
-
         }
+        dispatch(getMusic ( music ))
     }
-
-
-
 
     return (
         <div>
@@ -42,17 +39,20 @@ const Music = ({music}) => {
                     { music.name.split ( "." )[ 0 ] }
                 </span>
                 <div className="content">
-
                         <img className="music-icon" width={ 142 } height={ 142 } src={ musicLogo } alt=""/>
                         <div className="d-flex">
                             <img src={downloadIcon} onClick={ ( event ) => downloadClickHandler ( event ) }
                                  className="music-download btn"/>
-                            <img src={ isPlay ? pauseIcon : playIcon } onClick={() => playClickHandler()}
+                            <img src={ isPlay ? pauseIcon : playIcon } onClick={playClickHandler}
                                  className="music-play btn"/>
                             <img src={deleteIcon} onClick={ ( event ) => deleteClickHandler ( event ) }
                                  className="music-delete btn"/>
                         </div>
                 </div>
+                <span className="music-name">
+                    Upload date : { music.date.slice(0,10) }
+                </span>
+                <span> <SettingOutlined className="music-settings" /> </span>
             </div>
         </div>
     );

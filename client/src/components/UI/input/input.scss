@@ -1,5 +1,5 @@
 .authorization>input{
-  border: none;
+  border: black ;
   border-bottom: solid 3px;
   background: transparent;
   width: 100%;
@@ -7,6 +7,10 @@
   &:focus {
     outline: none;
     transform: scale(1.01);
+    border: black;
+  }
+  &:hover{
+    border : black;
   }
 }
 ::-webkit-input-placeholder { /* Chrome */

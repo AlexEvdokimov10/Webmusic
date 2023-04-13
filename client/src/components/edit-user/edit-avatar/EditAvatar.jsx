@@ -11,12 +11,14 @@ const EditAvatar = () => {
     }
     return (
         <div className="edit-profile">
-            <label className="change-avatar">
-                <input className="input-avatar" accept="image/*" onChange={e=>changeAvatar(e)} type='file' placeholder="Download avatar" />
-                <div>
-                    Change avatar
-                </div>
-            </label>
+            <div>
+                <label className="change-avatar">
+                    <input className="input-avatar" accept="image/*" onChange={e=>changeAvatar(e)} type='file' placeholder="Download avatar" />
+                        <div>
+                            Change avatar
+                        </div>
+                </label>
+            </div>
             <div>
                 <button className="change-avatar" onClick={()=>dispatch(deleteAvatar())}>Delete avatar</button>
             </div>

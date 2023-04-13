@@ -37,7 +37,6 @@
     width: 120px;
     height: 100px;
     display: block;
-
   }
   &:hover .music-delete{
     width: 120px;
@@ -52,6 +51,9 @@
     width: 100px;
     height: 100px;
     display: block;
+    cursor: pointer;
   }
-
+  &:hover .music-settings{
+    cursor: pointer;
+  }
 }

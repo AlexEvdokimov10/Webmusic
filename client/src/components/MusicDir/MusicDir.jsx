@@ -1,37 +1,54 @@
-import React , {useEffect} from 'react';
+import React , {useEffect , useState} from 'react';
 import MusicList from "./MusicList/MusicList";
 import FindLogo from "../../assets/Union.svg"
 import UploadIcon from "../../assets/uploadIcon.png"
 import "./musicDir.scss"
 import {useDispatch , useSelector} from "react-redux";
-import {getMusics , uploadMusic} from "../../actions/musics";
-
+import {getMusics , searchMusics , uploadMusic} from "../../actions/musics";
+import Audio from "../UI/audio/Audio";
+import Select from "../UI/select/Select";
 
 const MusicDir = () => {
     const dispatch = useDispatch()
-    const musics = useSelector(state=>state.musics)
+    const link = useSelector(state => state.musics.link)
+    const [sort,setSort]=useState("name")
+    const [searchName,setSearchName] = useState('')
     function musicUploadHandler(event) {
         const musics=[...event.target.files]
         musics.forEach(music=>dispatch(uploadMusic(music)))
     }
 
     useEffect(()=>{
-        dispatch(getMusics())
-    },[musics])
+        dispatch(getMusics(sort))
+    },[sort])
+
+    useEffect(()=>{
+        console.log(link)
+    })
+
+    function searchChangeHandler( e ) {
+        setSearchName(e.target.value)
+        dispatch(searchMusics(e.target.value))
+    }
 
     return (
         <div className="disk">
             <div className="body wrapper clear">
                 <div className="content">
                     <div className="align-center">
-                        <h1>All Music</h1>
+                        <h1>My directory</h1>
                         <div className="search-block">
                             <img width={20} height={20} src={FindLogo} alt="Search"/>
-                            <input className="find-input" placeholder="Search"/>
-                            <audio id="audio" controls>
-                                <source id="music" type="audio/ogg" />
-                            </audio>
+                            <input value={searchName} onChange={e=>searchChangeHandler(e)} className="find-input" placeholder="Search..."/>
                         </div>
+                        <Select className="sorting" value={sort} onChange={(e)=>setSort(e.target.value)}>
+                            <option value="name"> Name </option>
+                            <option value="type"> Type </option>
+                            <option value="date"> Date </option>
+                        </Select>
+                        <Audio id="audio" src={link} controls>
+                            <source id="music" type="audio/ogg"  />
+                        </Audio>
                     </div>
                     <MusicList/>
                 </div>

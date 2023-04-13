@@ -82,6 +82,10 @@
   margin-left: 20px;
   margin-right: 20px;
   text-decoration: none;
+  cursor: pointer;
+  &:hover {
+    transform: translateY(-5px);
+  }
 }
 .nickname{
   font-weight: bold;
@@ -94,3 +98,4 @@
   text-align: center;
   margin-left: 60%;
 }
+

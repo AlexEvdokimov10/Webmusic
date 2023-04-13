@@ -51,6 +51,10 @@
   width: 100px;
   height: 100px;
   display: block;
+  cursor: pointer;
+}
+.card:hover .music-settings {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=music.css.map */

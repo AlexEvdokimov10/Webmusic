@@ -1,6 +1,6 @@
 .input-avatar {
   visibility: hidden;
-  width: 10px;
+  width: 50px;
 }
 
 .change-avatar {
@@ -16,10 +16,6 @@
   text-align: center;
   font-size: 20px;
   text-decoration: none;
-}
-.change-avatar:hover {
-  box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.06);
-  transform: translateY(-5px);
 }
 
 /*# sourceMappingURL=edit-avatar.css.map */
