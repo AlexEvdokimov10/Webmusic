@@ -4,11 +4,14 @@ const Music=new Schema({
     name:{
         type:String, required:true
     },
-    type:{type:String, default:" "},
-    path:{type:String, default:0},
-    time:{type:Number,default: ""},
+    genre:[{type:String, ref:"Genre",default:""}],
+    path:{type:String, default:""},
+    time:{type:Number,default:0},
+    description:{type:String,default: ""},
     date:{type:Date, default:Date.now()},
     image:{type:String,default:""},
+    listens:[{type:ObjectId,ref:"User"}],
+    likes:[{type:ObjectId,ref:"User"}],
     author:{type:ObjectId, ref:'User'}
 })
 

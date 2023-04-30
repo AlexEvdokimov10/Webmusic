@@ -3,25 +3,39 @@ import './authorization.scss'
 import Logo from "../../assets/musiclab_logo.svg"
 import MyInput from "../UI/input/MyInput";
 import {registration} from "../../actions/user";
-import {Button , Form} from "antd";
+import {Button , Form , message} from "antd";
 import {useInput} from "../../hooks/useInput";
 import NicknameValidations from "../validations/NicknameValidations";
 import EmailValidations from "../validations/EmailValidations";
 import PasswordValidations from "../validations/PasswordValidations";
+import {useDispatch , useSelector} from "react-redux";
+import {getError , getSuccess} from "../../reducers/messageReducer";
+import {useCheckAuth} from "../../hooks/useCheckAuth";
 
 const Registration = () => {
     const nickname=useInput('',{isEmpty:true,minLength:3,maxLength:12})
     const email=useInput('',{isEmpty:true,minLength:5})
     const password=useInput('',{isEmpty:true,minLength:5})
+    const successMessage = useSelector(state => state.message.successMessage)
+    const errorMessage = useSelector(state=> state.message.error)
+    const [messageApi, contextHolder] = message.useMessage();
+    const dispatch = useDispatch()
+    const register = () =>{
+        dispatch(registration(nickname.value,email.value,password.value))
 
+    }
+    useCheckAuth(errorMessage,successMessage,messageApi,dispatch)
     const checkInvalid = () => {
       return !email.inputIsValid ||
           !password.inputIsValid ||
           !nickname.inputIsValid
     }
 
+
+
     return (
-        <Form className="authorization" onFinish={()=>registration(nickname.value,email.value,password.value)}>
+        <Form className="authorization" onFinish={register}>
+            {contextHolder}
             <img width={100}  height={60} src={Logo}/>
             <div className="auth-header">Registration</div>
             <MyInput onBlur={ e=>nickname.onBlur(e)} value={nickname.value} onChange={ e=>nickname.onChange(e)} type="text" placeholder="MyInput nickname..." />

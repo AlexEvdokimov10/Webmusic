@@ -7,6 +7,7 @@ export const useInput = (initialValue,validation) =>{
     const valid =useValidation(value,validation)
 
     const onChange=(e)=>{
+        e.stopPropagation()
         setValue(e.target.value)
     }
     const onBlur = () =>{
@@ -14,6 +15,7 @@ export const useInput = (initialValue,validation) =>{
     }
     return {
         value,
+        setValue,
         onChange,
         onBlur,
         isDirty,

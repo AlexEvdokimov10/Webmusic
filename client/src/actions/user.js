@@ -1,14 +1,23 @@
 import axios from "axios"
 import {setUser  , editUserAction} from "../reducers/userReducer";
 import {API_URL} from "../config";
+import {getAuthor} from "../reducers/musicReducer";
+import {getError , getSuccess} from "../reducers/messageReducer";
 
 
-export const registration = async (nickname,email,password)=>{
-    try {
-        const response = await axios.post (`http://localhost:5000/api/auth/registration`, {nickname, email, password})
-        alert(response.data.message)
-    } catch (e){
-        console.log(e)
+export const registration = (nickname,email,password)=>{
+    return async dispatch => {
+        try {
+            const response = await axios.post ( `http://localhost:5000/api/auth/registration` , {
+                nickname ,
+                email ,
+                password
+            } )
+            console.log(response.data)
+            dispatch(getSuccess("Account was registered"))
+        } catch ( e ) {
+            dispatch ( getError ( "We can't register this user. Check input data." ) )
+        }
     }
 }
 export const login = (email,password) => {
@@ -21,7 +30,7 @@ export const login = (email,password) => {
             dispatch(setUser(response.data.user))
             localStorage.setItem('token',response.data.token)
         } catch (e) {
-            console.log (e)
+            dispatch(getError("Email or password doesn't match"))
         }
     }
 }
@@ -36,7 +45,6 @@ export const auth = () => {
             dispatch ( setUser ( response.data.user ) )
             localStorage.setItem ( 'token' , response.data.token )
         } catch (e) {
-            console.log ( e )
             localStorage.removeItem("token")
         }
     }
@@ -55,6 +63,7 @@ export const editUser = ( nickname, email) => {
         }
     }
 }
+
 
 export const uploadAvatar = (file) => {
     {
@@ -87,3 +96,4 @@ export const deleteAvatar = () => {
         }
     }
 }
+

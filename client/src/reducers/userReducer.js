@@ -1,5 +1,6 @@
 const SET_USER="SET_USER"
 const EDIT_USER="EDIT_USER"
+const SET_MESSAGE = "SET_MESSAGE"
 const LOG_OUT="LOG_OUT"
 
 const defaultState={
@@ -17,7 +18,7 @@ export default function userReducer(state=defaultState, action) {
         case EDIT_USER:
             return {
                 ...state,
-                currentUser: [...state.currentUser,action.payload]
+                currentUser:action.payload
             }
         case LOG_OUT:
             localStorage.removeItem('token')

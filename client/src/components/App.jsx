@@ -1,26 +1,16 @@
 import Navbar from "./navbar/Navbar";
-import {BrowserRouter} from "react-router-dom";
-import {useDispatch , useSelector} from "react-redux";
-import {useEffect , useMemo} from "react";
-import {auth} from "../actions/user";
+import {BrowserRouter , useNavigate} from "react-router-dom";
 import AppRouter from "./routers/AppRouter";
+import BottomBar from "./bottombar/BottomBar";
 
 const App = () => {
-    const dispatch = useDispatch ()
-    const isAuth = useSelector(state=>state.user.isAuth)
-
-
-
-    useEffect( () => {
-        dispatch ( auth () )
-    } , [isAuth])
-
 
     return (
         <BrowserRouter>
             <div className="app">
                 <Navbar/>
                 <AppRouter/>
+                <BottomBar/>
             </div>
         </BrowserRouter>
     );

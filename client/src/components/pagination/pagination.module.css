@@ -1,0 +1,13 @@
+.page__wrapper {
+    margin-top: 30px;
+    display: flex;
+}
+.page {
+    padding: 10px;
+    border: 1px solid ;
+    cursor: pointer;
+}
+.page__current {
+    border:2px solid orange;
+    font-weight: bold;
+}

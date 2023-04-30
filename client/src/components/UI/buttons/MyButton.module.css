@@ -1,0 +1,14 @@
+.addBtn{
+    padding:5px 15px;
+    color:black;
+    font-size:14px;
+    font-weight: bold;
+    border: 1px solid black;
+    cursor: pointer;
+    margin-left: 180px;
+    margin-top: 10px;
+}
+.addBtn:hover{
+    color: black;
+    border-color: black;
+}

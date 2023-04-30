@@ -2,7 +2,7 @@ import React from 'react';
 
 const Select = ({children,...props}) => {
     return (
-        <select className="sorting" {...props} >
+        <select {...props} >
             {children}
         </select>
     );

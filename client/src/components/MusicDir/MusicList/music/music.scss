@@ -1,6 +1,10 @@
 .music-name{
-  font-size: 14px;
-  font-style: italic;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: bold;
+  text-align: center;
+  width: 50%;
+  margin-top: 10px;
 }
 .d-flex {
   display: flex;
@@ -28,6 +32,9 @@
     padding: 8px 16px;
     font-size: 12px;
     cursor: pointer;
+  }
+  .music-icon{
+    box-shadow: 0px -5px 10px 0px rgba(0, 0, 0, 0.5);
   }
 
   &:hover .music-time{

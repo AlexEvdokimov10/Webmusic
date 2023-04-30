@@ -79,8 +79,8 @@
 }
 
 .avatar {
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 25px;
+  margin-right: 25px;
   text-decoration: none;
   cursor: pointer;
 }
@@ -90,7 +90,10 @@
 
 .nickname {
   font-weight: bold;
+  font-size: 15px;
   color: black;
+  text-align: center;
+  margin-top: 3px;
 }
 
 .home {

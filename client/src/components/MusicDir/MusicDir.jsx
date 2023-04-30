@@ -7,58 +7,56 @@ import {useDispatch , useSelector} from "react-redux";
 import {getMusics , searchMusics , uploadMusic} from "../../actions/musics";
 import Audio from "../UI/audio/Audio";
 import Select from "../UI/select/Select";
+import UploaderMusic from "../uploaders/UploaderMusic";
+import SelectMusics from "../selectMusics/SelectMusics";
+import {NavLink} from "react-router-dom";
+import {PlusCircleOutlined} from "@ant-design/icons";
+import MyInput from "../UI/input/MyInput";
+import {getAllGenres} from "../../actions/genres";
+import {setPage} from "../../reducers/pageReducer";
+import {Pagination} from "antd";
 
 const MusicDir = () => {
     const dispatch = useDispatch()
-    const link = useSelector(state => state.musics.link)
     const [sort,setSort]=useState("name")
     const [searchName,setSearchName] = useState('')
-    function musicUploadHandler(event) {
-        const musics=[...event.target.files]
-        musics.forEach(music=>dispatch(uploadMusic(music)))
-    }
+    const page = useSelector(state => state.page.page)
+    const totalCountPages = useSelector(state=>state.page.totalPage)
+    const [limit,setLimit] = useState(6)
+
 
     useEffect(()=>{
-        dispatch(getMusics(sort))
-    },[sort])
+        dispatch(getMusics(sort,limit,page))
+        dispatch(getAllGenres())
+    },[sort,page])
 
-    useEffect(()=>{
-        console.log(link)
-    })
 
     function searchChangeHandler( e ) {
         setSearchName(e.target.value)
         dispatch(searchMusics(e.target.value))
     }
 
+    const changePage = (page) => {
+        dispatch(setPage(page))
+    }
+
     return (
         <div className="disk">
             <div className="body wrapper clear">
                 <div className="content">
-                    <div className="align-center">
-                        <h1>My directory</h1>
+                    <h1>My directory</h1>
+                    <div style={{display:"flex"}}>
                         <div className="search-block">
                             <img width={20} height={20} src={FindLogo} alt="Search"/>
-                            <input value={searchName} onChange={e=>searchChangeHandler(e)} className="find-input" placeholder="Search..."/>
+                            <MyInput style={{borderRadius:"50px",marginLeft:"2px"}} value={searchName} onChange={e=>searchChangeHandler(e)} className="find-input" placeholder="Search..."/>
                         </div>
-                        <Select className="sorting" value={sort} onChange={(e)=>setSort(e.target.value)}>
-                            <option value="name"> Name </option>
-                            <option value="type"> Type </option>
-                            <option value="date"> Date </option>
-                        </Select>
-                        <Audio id="audio" src={link} controls>
-                            <source id="music" type="audio/ogg"  />
-                        </Audio>
+                        <SelectMusics sort={sort} onChange={(e)=>setSort(e.target.value)}/>
+                        <NavLink to="/recommends" style={{width:"20px", marginTop:"15px"}}> <span style={{color:"black", fontWeight:"bold", marginLeft:"100px", fontSize:"20px"}}> Recommends</span> </NavLink>
+                        <NavLink className="upload" to="/upload"> <PlusCircleOutlined  style={{color:"black",fontSize:35, marginTop:"10px"}}/> </NavLink>
                     </div>
                     <MusicList/>
                 </div>
-                <div className="music_upload">
-                    <label htmlFor="music_upload-input" className="music_upload-label">Upload</label>
-                    <label className="music" style={{cursor:"pointer"}}>
-                        <input multiple={true} name="file" style={{visibility:"hidden"}} onChange={(event)=>musicUploadHandler(event)} type="file" id="music_upload-input"  className="music_upload-input" />
-                        <img width={40} height={40} src={UploadIcon} alt="Upload"/>
-                    </label>
-                </div>
+                <Pagination defaultCurrent={page+1} onChange={(page) => changePage(page-1)}  total={totalCountPages*10} />
             </div>
         </div>
     );

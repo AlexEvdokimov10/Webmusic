@@ -1,0 +1,9 @@
+
+.music__upload {
+    text-align: center;
+    width: 50%;
+}
+.music__input {
+    display: flex;
+   visibility: hidden;
+}

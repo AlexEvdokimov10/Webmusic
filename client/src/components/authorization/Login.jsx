@@ -4,25 +4,29 @@ import MyInput from "../UI/input/MyInput";
 import {auth , login} from "../../actions/user";
 import {NavLink , useLocation , useNavigate} from "react-router-dom";
 import {useDispatch , useSelector} from "react-redux";
-import {Button , Form} from "antd";
+import {Button , Form , message} from "antd";
 import {useInput} from "../../hooks/useInput";
 import EmailValidations from "../validations/EmailValidations";
 import PasswordValidations from "../validations/PasswordValidations";
+import {useCheckAuth} from "../../hooks/useCheckAuth";
 
 const Login = () => {
     const email=useInput('',{isEmpty:true,minLength:5})
     const password=useInput('',{isEmpty:true,minLength:5})
+    const errorMessage = useSelector(state =>state.message.error)
+    const successMessage = useSelector(state =>state.message.successMessage)
+    const [messageApi, contextHolder] = message.useMessage();
     const dispatch = useDispatch ()
-    const navigate = useNavigate ()
-    const location = useLocation ()
-
-    const fromPage = location.state?.from?.pathname || '/home'
 
 
-    const loginUser = async () => {
+
+
+    const loginUser =  () => {
         dispatch ( login ( email.value , password.value ) )
-        navigate ( fromPage , { replace: true } )
     }
+
+
+    useCheckAuth(errorMessage,successMessage,messageApi,dispatch)
 
     const checkInvalid = () => {
         return !email.inputIsValid || !password.inputIsValid
@@ -31,6 +35,7 @@ const Login = () => {
     return (
 
             <Form className="authorization" onFinish={loginUser}>
+                {contextHolder}
                 <img width={ 100 } height={ 60 } src={ Logo }/>
                 <div className="auth-header">Login</div>
                 <MyInput onBlur={ e=>email.onBlur(e)} value={email.value} onChange={ e=>email.onChange(e)} name="email" type="email" placeholder="MyInput email..." />

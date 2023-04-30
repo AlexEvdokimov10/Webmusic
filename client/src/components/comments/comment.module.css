@@ -1,0 +1,12 @@
+.comment__author {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-left: 10px ;
+}
+.comment {
+    margin-top: 10px;
+    font-weight: lighter;
+    font-size: 18px;
+    font-family: "Times New Roman", serif;
+}
