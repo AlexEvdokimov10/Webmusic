@@ -9,6 +9,15 @@
 }
 
 
+.buffered {
+    height: 8px;
+    position: absolute;
+    background: #555;
+    width:0px;
+    opacity: 0.5;
+    border-radius: 10px;
+}
+
 .music__progress::-webkit-slider-thumb {
     -webkit-appearance: none;
     height: 15px;
@@ -17,17 +26,6 @@
     background: black;
     cursor: pointer;
     transition: background .3s ease-in-out;
-}
-
-.music__progress::-moz-range-thumb {
-    -webkit-appearance: none;
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
-    background: black;
-    cursor: ew-resize;
-    box-shadow: 0 0 2px 0 #555;
-    transition: background .1s ease-in-out;
 }
 
 

@@ -9,29 +9,27 @@ import NicknameValidations from "../validations/NicknameValidations";
 import EmailValidations from "../validations/EmailValidations";
 import PasswordValidations from "../validations/PasswordValidations";
 import {useDispatch , useSelector} from "react-redux";
-import {getError , getSuccess} from "../../reducers/messageReducer";
-import {useCheckAuth} from "../../hooks/useCheckAuth";
+import {getError , getSuccess} from "../../reducers/errorReducer";
+import {useCallMessage} from "../../hooks/useCallMessage";
 
 const Registration = () => {
     const nickname=useInput('',{isEmpty:true,minLength:3,maxLength:12})
     const email=useInput('',{isEmpty:true,minLength:5})
     const password=useInput('',{isEmpty:true,minLength:5})
-    const successMessage = useSelector(state => state.message.successMessage)
-    const errorMessage = useSelector(state=> state.message.error)
+    const successMessage = useSelector(state => state.error.successMessage)
+    const errorMessage = useSelector(state=> state.error.error)
     const [messageApi, contextHolder] = message.useMessage();
     const dispatch = useDispatch()
     const register = () =>{
         dispatch(registration(nickname.value,email.value,password.value))
 
     }
-    useCheckAuth(errorMessage,successMessage,messageApi,dispatch)
+    useCallMessage(errorMessage,successMessage,messageApi,dispatch)
     const checkInvalid = () => {
       return !email.inputIsValid ||
           !password.inputIsValid ||
           !nickname.inputIsValid
     }
-
-
 
     return (
         <Form className="authorization" onFinish={register}>

@@ -1,6 +1,6 @@
-import React , {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import UploaderMusic from "./UploaderMusic";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import MyInput from "../UI/input/MyInput";
 import styles from "./uploadPage.module.css"
 import AddButton from "../UI/buttons/AddButton";
@@ -12,6 +12,9 @@ import NameValidations from "../validations/NameValidations";
 import DescriptionValidations from "../validations/DescriptionValidations";
 import MusicFileValidations from "../validations/MusicFileValidations";
 import SelectGenre from "../selectMusics/SelectGenre";
+import {getError, getSuccess} from "../../reducers/errorReducer";
+import {message} from "antd";
+import {useCallMessage} from "../../hooks/useCallMessage";
 
 
 const UploaderPage = () => {
@@ -22,6 +25,11 @@ const UploaderPage = () => {
     const genres = useInput([],{isEmpty:true})
     const [fileImage , setFileImage] = useState ()
     const [imageMusic , setImageMusic] = useState ()
+    const [messageApi, contextHolder] = message.useMessage();
+    const successMessage = useSelector(state => state.error.successMessage)
+    const errorMessage = useSelector(state=> state.error.error)
+
+    useCallMessage(errorMessage,successMessage,messageApi,dispatch)
 
     function musicUploadHandler( event ) {
         fileMusic.setValue ( ...event.target.files )
@@ -32,6 +40,7 @@ const UploaderPage = () => {
             ! description.inputIsValid ||
             ! fileMusic.inputIsValid
     }
+
 
     function uploadImage( e ) {
         let file = e.target.files[0]
@@ -62,6 +71,7 @@ const UploaderPage = () => {
 
     return (
         <div style={ { marginLeft: "250px" } }>
+            {contextHolder}
             <div className={ styles.div__uploader }>
                 <UploaderMusic accept=".png, .jpg, .jpeg" nameUploaders={ "Upload image" }
                                onChange={ ( event ) => uploadImage ( event ) }/>
@@ -90,6 +100,7 @@ const UploaderPage = () => {
             <UploaderMusic accept=".mp3, .wma, .mp2, .amr "
                            nameUploaders={ "Upload music" }
                            onChange={ ( event ) => musicUploadHandler ( event ) }/>
+            {fileMusic?.value?.name}
             <MusicFileValidations fileMusic={ fileMusic }/>
             <AddButton disabled={ checkInvalid () } onClick={ addMusic }>
                 Add music

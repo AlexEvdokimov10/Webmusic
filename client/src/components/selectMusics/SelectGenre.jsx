@@ -12,7 +12,7 @@ const SelectGenre = ({onChange}) => {
         }
     })
     return (
-        <Select onChange={onChange} options={options} optionLabelProp="label" mode="multiple" style={{width:"150px"}}
+        <Select onChange={onChange} options={options} optionLabelProp="label" mode="multiple" style={{width:"150px", marginTop:10}}
                 defaultValue={ [] }
                 placeholder="select genre"/>
     );

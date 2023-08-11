@@ -14,14 +14,17 @@ import {
     playCurrentMusic , setActiveAuthorByMusic
 } from "../../../../actions/musics";
 import {useDispatch , useSelector} from "react-redux";
-import {HeartOutlined , SettingOutlined} from "@ant-design/icons";
+import {DownOutlined , MoreOutlined , SettingOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
 import {setActiveMusic , setPause , setPlay} from "../../../../reducers/playerReducer";
 import {API_URL} from "../../../../config";
 import moment from "moment/moment";
+import {Dropdown , Space} from "antd";
+import PlaylistDropdownButton from "../../../playlist/PlaylistDropdownButton";
+import PlaylistItem from "../../../playlist/PlaylistItem";
 
 
-const Music = ( { music } ) => {
+const Music = ( { music} ) => {
     const currentUser = useSelector(state => state.user.currentUser)
     const pause = useSelector ( state => state.player.pause )
     const activeMusic = useSelector ( state => state.player.activeMusic )
@@ -32,6 +35,14 @@ const Music = ( { music } ) => {
     const [listens, setListens] = useState(0)
     const router = useNavigate ()
     const dispatch = useDispatch ();
+
+    const playlists = useSelector((state)=>state.playlist.playlists).map((playlist)=>{
+        return {
+            key:playlist._id,
+            label:
+                <PlaylistItem playlist={playlist} music={music}/>
+        }
+    })
 
     function deleteClickHandler( event ) {
         event.stopPropagation ()
@@ -56,8 +67,8 @@ const Music = ( { music } ) => {
         }
     }
     useEffect(()=>{
-        setListens(music.listens.length)
-        if(music.likes.includes(currentUser.id)) {
+        setListens(music?.listens?.length)
+        if(music?.likes?.includes(currentUser.id)) {
             setIsLike(true)
         } else {
             setIsLike(false)
@@ -72,7 +83,7 @@ const Music = ( { music } ) => {
         <div>
             <div className="card">
                 <div className="music-name">
-                    { music.name.charAt ( 0 ).toUpperCase () + music.name.slice ( 1 ) }
+                    { music?.name?.charAt ( 0 ).toUpperCase () + music?.name?.slice ( 1 ) }
                 </div>
                 <div className="content">
                     <img className="music-icon" width={ 180 } height={ 142 } src={ music.image ? musicImg : musicLogo }
@@ -101,14 +112,17 @@ const Music = ( { music } ) => {
                         listens : {listens}
                     </span>
                     <span style={{fontSize:"18px", marginLeft:"10px"}}>
-                        { moment ( music.time * 1000 ).format ( "mm:ss" ) }
+                        { moment ( music?.time * 1000 ).format ( "mm:ss" ) }
+                    </span>
+                    <span>
+                        <PlaylistDropdownButton playlists={playlists}/>
                     </span>
                 </div>
                 <span className="music-name">
-                    Upload date : { music.date.slice ( 0 , 10 ) }
+                    Upload date : { music?.date?.slice ( 0 , 10 ) }
                 </span>
                 <span> <SettingOutlined className="music-settings"
-                                        onClick={ () => router ( `/musics/${ music._id }` ) }/> </span>
+                                        onClick={ () => router ( `/musics/${ music?._id }` ) }/> </span>
             </div>
         </div>
     );

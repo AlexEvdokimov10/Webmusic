@@ -1,19 +1,15 @@
-const GET_ERROR = "GET_ERROR"
-const GET_SUCCESS ="GET_SUCCESS"
+const SEND_MESSAGE = "SEND_MESSAGE"
 
 const defaultState = {
-    successMessage:"",
-    error:""
+    messages:[]
 }
 
-export default function messageReducer( state=defaultState, action) {
+export default function messageReducer(state=defaultState, action) {
     switch (action.type) {
-        case GET_ERROR: return {...state,error: action.payload}
-        case GET_SUCCESS: return {...state,successMessage: action.payload}
+        case SEND_MESSAGE:return {...state,messages: [...state.messages,action.payload]}
         default:
             return state
     }
 }
 
-export const getError = (error) => ({type:GET_ERROR,payload:error})
-export const getSuccess = (success) => ({type:GET_SUCCESS,payload:success})
+export const addMessage = (message) =>({type:SEND_MESSAGE,payload:message})

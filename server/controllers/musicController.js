@@ -19,7 +19,23 @@ class MusicController {
             const sort=req.query.sort
             const limit = req.query.limit
             const page = req.query.page
-            let musics = await musicService.fetchMusics(sort,req.user.id,page,limit)
+            const genres = req.query.genres
+            let musics = await musicService.fetchMusics(sort,req.user.id,page,limit,genres)
+            return res.json ( musics )
+        } catch ( e ) {
+            next(e)
+        }
+    }
+
+    async getMusicsProfile( req , res ,next) {
+        try {
+            const userId = req.params.id
+            console.log("UserId:"+userId)
+            const sort=req.query.sort
+            const limit = req.query.limit
+            const page = req.query.page
+            const genres = req.query.genres
+            let musics = await musicService.fetchMusics(sort,userId,page,limit,genres)
             return res.json ( musics )
         } catch ( e ) {
             next(e)
@@ -31,6 +47,16 @@ class MusicController {
             const music = req.body
             const dbMusic = await musicService.uploadMusic(req.files,req.user.id,music)
             return res.json ( dbMusic )
+        } catch ( e ) {
+            next(e)
+        }
+    }
+
+    async editMusic(req, res, next) {
+        try {
+            const music = req.body
+            const updateMusic = await musicService.edit(req.files,req.user.id,req.params.id,music)
+            return res.json(updateMusic)
         } catch ( e ) {
             next(e)
         }
@@ -62,7 +88,7 @@ class MusicController {
         try {
             const music = await musicService.play(req.user.id,req.query.id)
             if(music){
-                return res.download ( music.path , music.name )
+                return res.sendFile ( music.path , music.name )
             }
             return next(ApiError.BadRequest("Download exception"))
         } catch ( e ) {
@@ -84,16 +110,36 @@ class MusicController {
             const searchName = req.query.search
             const page =req.query.page
             const limit = req.query.limit
-            let musics = await musicService.searchMusic(searchName,req.user.id,page,limit)
+            const genres = req.query.genres
+            const sort=req.query.sort
+            let musics = await musicService.searchMusic(searchName,req.user.id,page,limit,genres,sort)
             return res.json(musics)
         } catch ( e ) {
            next(e)
         }
     }
+
+    async searchProfileMusic(req,res,next) {
+        try {
+            const searchName = req.query.search
+            const page =req.query.page
+            const limit = req.query.limit
+            const userId =req.query.id
+            const genres = req.query.genres
+            const sort=req.query.sort
+            let musics = await musicService.searchMusic(searchName,userId,page,limit,genres,sort)
+            return res.json(musics)
+        } catch ( e ) {
+            next(e)
+        }
+    }
     async searchRecommendMusic(req,res,next) {
         try {
             const searchName = req.query.search
-            let musics = await musicService.searchRecommendMusic(searchName)
+            const page =req.query.page
+            const limit = req.query.limit
+            const genres = req.query.genres
+            let musics = await musicService.searchRecommendMusic(searchName,page,limit,genres)
             return res.json(musics)
         } catch ( e ) {
             next(e)
@@ -140,11 +186,18 @@ class MusicController {
 
     async getRecommendMusic(req,res,next){
         try {
-            const musics = await recommendService.getRecommendMusic(req.user.id,req.query.page,req.query.limit)
+            const sort = req.query.sort
+            const userId =req.user.id;
+            const page =req.query.page
+            const limit = req.query.limit
+            const genres = req.query.genres
+            const musics = await recommendService.getRecommendMusic(userId, page, limit, genres,sort )
             return res.json(musics)
         } catch ( e ) {
             next(e)
         }
     }
+
+
 }
 module.exports=new MusicController()

@@ -5,9 +5,12 @@ import userReducer from "./userReducer";
 import musicReducer from "./musicReducer";
 import playerReducer from "./playerReducer";
 import commentReducer from "./commentReducer";
-import messageReducer from "./messageReducer";
+import errorReducer from "./errorReducer";
 import genreReducer from "./genreReducer";
-import pageReducer from "./pageReducer";
+import playlistReducer from "./playlistReducer";
+import roleReducer from "./roleReducer";
+import albumReducer from "./albumsReducer";
+import messageReducer from "./messageReducer";
 
 const rootReducer= combineReducers({
     user:userReducer,
@@ -15,7 +18,10 @@ const rootReducer= combineReducers({
     player:playerReducer,
     comments:commentReducer,
     message:messageReducer,
+    error:errorReducer,
     genre:genreReducer,
-    page:pageReducer
+    playlist:playlistReducer,
+    roles:roleReducer,
+    albums:albumReducer
 })
 export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))

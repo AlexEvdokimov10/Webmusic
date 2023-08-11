@@ -12,7 +12,9 @@ const Music=new Schema({
     image:{type:String,default:""},
     listens:[{type:ObjectId,ref:"User"}],
     likes:[{type:ObjectId,ref:"User"}],
-    author:{type:ObjectId, ref:'User'}
+    author:{type:ObjectId, ref:'User'},
+    playlists:[{type:ObjectId,ref:"Playlist"}],
+    album:{type:ObjectId,ref:"album"}
 })
 
 module.exports=model("Music",Music)

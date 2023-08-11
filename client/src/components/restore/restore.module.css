@@ -1,0 +1,18 @@
+.restore__div{
+    width: 500px;
+    margin-left: 500px;
+    margin-top: 100px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+.restore__button {
+    margin-top: 10px;
+}
+.restore__input {
+    margin-top: 10px;
+    box-shadow: 0 0 20px rgba(104, 85, 224, 0.2);
+    border: none;
+    border-bottom: 2px solid black;
+}

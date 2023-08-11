@@ -1,16 +1,25 @@
 import axios from "axios";
-import {addMusic , deleteMusicAction , getAuthor , getMusic , setMusics , updateMusic} from "../reducers/musicReducer";
+import {
+    addMusic,
+    deleteMusicAction,
+    getAuthor,
+    getMusic,
+    setMusics,
+    setTotalPage,
+    updateMusic
+} from "../reducers/musicReducer";
 import {setActiveAuthor , setActiveMusic , setLink , setPlay} from "../reducers/playerReducer";
 import {getPageCount} from "../utils/page";
-import {setTotalPage} from "../reducers/pageReducer";
+import {getError, getSuccess} from "../reducers/errorReducer";
 
-export function getMusics( sort , limit, page ) {
+export function getMusics( sort , limit, page,genres ) {
     return async dispatch => {
         try {
             let url = `http://localhost:5000/api/musics`
             if (sort) {
                 url = `http://localhost:5000/api/musics?sort=${ sort }`
             }
+            console.log(genres)
             const response = await axios.get ( url , {
                 headers: {
                     Authorization: `Bearer ${ localStorage.getItem ( 'token' ) }`
@@ -18,6 +27,7 @@ export function getMusics( sort , limit, page ) {
                 params:{
                     limit:limit,
                     page:page,
+                    genres:genres
                 }
             } )
             dispatch ( setMusics ( response.data.musics ) )
@@ -43,14 +53,14 @@ export function uploadMusic( musicFile , musicImage, musicGenres , musicName , m
             } );
 
             dispatch ( addMusic ( response.data ) )
-
+            dispatch(getSuccess("Music was uploaded"))
 
         } catch ( e ) {
+            dispatch(getError("Music uploading error"))
             alert ( e.response.data.message )
         }
     }
 }
-
 
 export function deleteMusic( file ) {
     return async dispatch => {
@@ -95,7 +105,7 @@ export async function downloadMusic( music ) {
 export function playCurrentMusic( music ) {
     return async dispatch => {
         try {
-            const response = await fetch ( `http://localhost:5000/api/musics/play?id=${ music._id }` , {
+            const response = await fetch ( `http://localhost:5000/api/musics/play?id=${ music._id }`  ,{
                 headers: { Authorization: `Bearer ${ localStorage.getItem ( 'token' ) }` }
             } )
             const blob = await response.blob ();
@@ -107,7 +117,7 @@ export function playCurrentMusic( music ) {
     }
 }
 
-export function searchMusics( search , page , limit ) {
+export function searchMusics( search, sort , page , limit,genres ) {
     return async dispatch => {
         try {
             const response = await axios.get ( `http://localhost:5000/api/musics/search?search=${ search }` , {
@@ -117,9 +127,36 @@ export function searchMusics( search , page , limit ) {
                 params:{
                     limit:limit,
                     page:page,
+                    genres:genres,
+                    sort:sort
                 }
             } )
-            dispatch ( setMusics ( response.data ) )
+            dispatch ( setMusics ( response.data.musics ) )
+            dispatch(setTotalPage(getPageCount(response.data.total,limit)))
+        } catch ( e ) {
+            alert ( e.response.data.message )
+        }
+    }
+
+}
+
+export function searchMusicsProfile( id,search, sort , page , limit,genres ) {
+    return async dispatch => {
+        try {
+            const response = await axios.get ( `http://localhost:5000/api/musics/search/profile?search=${ search }` , {
+                headers: {
+                    Authorization: `Bearer ${ localStorage.getItem ( "token" ) }`
+                } ,
+                params:{
+                    limit:limit,
+                    page:page,
+                    id:id,
+                    genres:genres,
+                    sort:sort
+                }
+            } )
+            dispatch ( setMusics ( response.data.musics ) )
+            dispatch(setTotalPage(getPageCount(response.data.total,limit)))
         } catch ( e ) {
             alert ( e.response.data.message )
         }
@@ -138,7 +175,7 @@ export function getCurrentMusic( id ) {
             } )
             dispatch ( getMusic ( response.data ) )
         } catch ( e ) {
-            alert ( e.response.data.message )
+            console.log ( e.response.data.message )
         }
     }
 }
@@ -146,12 +183,40 @@ export function getCurrentMusic( id ) {
 export function getAuthorByMusic( music ) {
     return async dispatch => {
         try {
-            const response = await axios.get ( `http://localhost:5000/api/musics/getAuthor?author=${ music.author }` , {
+            const response = await axios.get ( `http://localhost:5000/api/musics/getAuthor` , {
                 headers: {
                     Authorization: `Bearer ${ localStorage.getItem ( "token" ) }`
+                },
+                params:{
+                    author:music.author
                 }
             } )
+           console.log(music.author)
             dispatch ( getAuthor ( response.data ) )
+        } catch ( e ) {
+            console.log(e.response.data.message)
+        }
+    }
+}
+
+export function getProfileMusic( id , sort, limit , page, genres ) {
+    return async dispatch => {
+        try {
+            const response = await axios.get ( `http://localhost:5000/api/musics/profile/${id}` , {
+                headers: {
+                    Authorization: `Bearer ${ localStorage.getItem ( "token" ) }`
+                },
+                params:{
+                    sort:sort,
+                    limit:limit,
+                    page:page,
+                    genres:genres
+                }
+            } )
+            console.log(response.data.musics)
+
+            dispatch ( setMusics ( response.data.musics ) )
+            dispatch(setTotalPage(getPageCount(response.data.total,limit)))
         } catch ( e ) {
             alert ( e.response.data.message )
         }
@@ -187,8 +252,27 @@ export function like ( music ) {
         }
     }
 }
+export function edit (  id,music,musicImg ) {
+    return async dispatch => {
+        try {
+            const formDataMusic = new FormData ()
+            formDataMusic.append ( 'image' , musicImg)
+            formDataMusic.append("genres",music.genres.value)
+            formDataMusic.append ( "name" , music.name )
+            formDataMusic.append ( "description" , music.description )
+            const response = await axios.patch ( `http://localhost:5000/api/musics/edit/${id}` , formDataMusic,{
+                headers: {
+                    Authorization: `Bearer ${ localStorage.getItem ( "token" ) }`
+                }
+            } )
+            dispatch(updateMusic(response.data))
+        } catch ( e ) {
+            alert ( e.response.data.message )
+        }
+    }
+}
 
-export function getRecommendMusics(page,limit){
+export function getRecommendMusics(sort,page,limit, genres){
     return async dispatch =>{
         try {
             const response = await axios.get ( `http://localhost:5000/api/musics/recommends` , {
@@ -196,8 +280,10 @@ export function getRecommendMusics(page,limit){
                     Authorization: `Bearer ${ localStorage.getItem ( "token" ) }`
                 },
                 params:{
+                    sort:sort,
                     limit:limit,
                     page:page,
+                    genres:genres
                 }
             } )
             dispatch(setMusics(response.data.musics))
@@ -208,19 +294,22 @@ export function getRecommendMusics(page,limit){
     }
 }
 
-export function searchRecommendMusic(search,page,limit){
+export function searchRecommendMusic(search,page,limit,genres){
     return async dispatch =>{
         try {
-            const response = await axios.get ( `http://localhost:5000/api/musics/recommends?search=${search}` , {
+            const response = await axios.get ( `http://localhost:5000/api/musics/recommends/search` , {
                 headers: {
                     Authorization: `Bearer ${ localStorage.getItem ( "token" ) }`
                 } ,
                 params:{
+                    search:search,
                     limit:limit,
                     page:page,
+                    genres:genres
                 }
             } )
-            dispatch(setMusics(response.data))
+            dispatch(setMusics(response.data.musics))
+            dispatch(setTotalPage(getPageCount(response.data.total,limit)))
         } catch ( e ) {
             alert ( e.response.data.message )
         }

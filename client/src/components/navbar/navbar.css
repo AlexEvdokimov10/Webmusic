@@ -101,7 +101,12 @@
   color: black;
   text-decoration: none;
   text-align: center;
-  margin-left: 60%;
+  margin-left: 25px;
+}
+
+.menu {
+  display: flex;
+  margin-left: 45%;
 }
 
 /*# sourceMappingURL=navbar.css.map */

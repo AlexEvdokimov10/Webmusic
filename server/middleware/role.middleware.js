@@ -7,15 +7,15 @@ module.exports = function (roles) {
         if (req.method === "OPTIONS") {
             next()
         }
-
         try {
             const token = req.headers.authorization.split(' ')[1]
             if (!token) {
                 return res.status(403).json({message: "User isn't authorized"})
             }
-            const {roles: userRoles} = jwt.verify(token, config.get("secretKey"))
+            const decode = jwt.verify(token, config.get("secretKey"))
+            console.log(decode)
             let hasRole = false
-            userRoles.forEach(role => {
+            decode.roles?.forEach(role => {
                 if (roles.includes(role)) {
                     hasRole = true
                 }

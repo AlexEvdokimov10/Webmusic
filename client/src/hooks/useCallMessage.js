@@ -1,10 +1,11 @@
 import {useEffect} from "react";
-import {getError , getSuccess} from "../reducers/messageReducer";
+import {getError , getSuccess} from "../reducers/errorReducer";
 import {useDispatch} from "react-redux";
 
 
-export const useCheckAuth = (errorMessage,successMessage,messageApi,dispatch) =>{
+export const useCallMessage = (errorMessage, successMessage, messageApi, dispatch) =>{
     useEffect(()=>{
+        console.log("message")
         if(successMessage.length>0){
             messageApi.open ( {
                 type: "success" ,

@@ -21,10 +21,35 @@ class FileService {
         }
     }
 
+    async createMusicFileAlbum(user,file){
+
+        if (file.mimetype === "audio/mpeg") {
+            let path
+            path = `${ config.get ( 'musicPath' ) }\\${ user._id }\\${ file.name }.mp3`
+
+            if (fs.existsSync ( path )) {
+                throw new ApiError.BadRequest ( "music already exist" )
+            }
+            file.mv ( path )
+            return path
+        } else {
+            throw new ApiError.BadRequest ( "User has tried upload incorrect format" )
+        }
+    }
+
     async createMusicImage(file){
         if(file) {
             const imgName = UUid.v4 () + ".jpg"
             file.mv ( config.get ( 'staticMusicImg' ) + "\\" + imgName )
+            return imgName
+        }
+        return ""
+    }
+
+    async createAlbumImage(file){
+        if(file) {
+            const imgName = UUid.v4 () + ".jpg"
+            file.mv ( config.get ( 'staticAlbumImg' ) + "\\" + imgName )
             return imgName
         }
         return ""

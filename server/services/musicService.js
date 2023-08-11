@@ -27,23 +27,27 @@ class MusicService {
         } )
     }
 
-    async fetchMusics( sort , userId , page , limit ) {
+    async fetchMusics( sort, userId , page , limit ,genres ) {
+        console.log("page"+page)
+        console.log("limit:"+limit)
+        console.log("genres:"+genres)
+
         let musics
         switch (sort) {
             case 'name':
-                musics = await Music.find ( { author: userId } ).sort ( { name: 1 } ).skip ( page * limit ).limit ( limit )
+                musics = await Music.find ( { author: userId,genre:{$in:genres} } ).sort ( { name: 1 } ).skip ( page * limit ).limit ( limit )
                 break
             case 'time':
-                musics = await Music.find ( { author: userId } ).sort ( { time: 1 } ).skip ( page * limit ).limit ( limit )
+                musics = await Music.find ( { author: userId,genre:{$in:genres}  } ).sort ( { time: 1 } ).skip ( page * limit ).limit ( limit )
                 break
             case 'date':
-                musics = await Music.find ( { author: userId } ).sort ( { date: 1 } ).skip ( page * limit ).limit ( limit )
+                musics = await Music.find ( { author: userId,genre:{$in:genres}  } ).sort ( { date: 1 } ).skip ( page * limit ).limit ( limit )
                 break
             default:
-                musics = await Music.find ( { author: userId } ).skip ( page * limit ).limit ( limit )
+                musics = await Music.find ( { author: userId,genre:{$in:genres}  } ).skip ( page * limit ).limit ( limit )
                 break
         }
-        const total = await Music.countDocuments ( { author: userId } )
+        const total = await Music.countDocuments ( { author: userId, genre:{$in:genres}} )
         return {
             musics: musics , total: total
         }
@@ -140,29 +144,50 @@ class MusicService {
         return music
     }
 
-    async searchMusic( searchName , userId , page , limit ) {
-        let musics = await Music.find ( { name:{$regex:searchName,$options:"i"},author: userId } ).skip(page*limit).limit(limit)
-        return musics
+    async searchMusic( searchName , userId , page , limit,genres, sort ) {
+        let musics = await Music.find ( { name:{$regex:searchName,$options:"i"},author: userId , genre:{$in:genres} } ).sort(sort).skip(page*limit).limit(limit)
+        const total = await Music.countDocuments ( { name:{$regex:searchName,$options:"i"}, author: userId , genre:{$in:genres} } )
+        return {
+            musics: musics , total: total
+        }
     }
 
-    async searchRecommendMusic( searchName , page , limit ) {
-        let musics = await Music.find ( { name:{$regex:searchName,$options:"i"}} ).skip(page*limit).limit(limit)
-        return musics
+    async searchRecommendMusic( searchName , page , limit,genres ) {
+        let musics = await Music.find ( { name:{$regex:searchName,$options:"i"}, genre:{$in:genres}} ).skip(page*limit).limit(limit)
+        const total = await Music.countDocuments ( { name:{$regex:searchName,$options:"i"}, genre:{$in:genres}} )
+        return {
+            musics: musics , total: total
+        }
     }
 
     async findAuthorById( authorId ) {
-        const author = await User.findOne ( { authorId } )
-
-        return (
-            {
-                nickname: author.nickname , email: author.email
-            })
+        const author = await User.findOne ( { _id:authorId } )
+        if(author) {
+            return (
+                {
+                    _id: author._id, nickname: author.nickname, email: author.email, avatar: author.avatar
+                })
+        }
+        return ApiError.BadRequest ( 'User not found' )
     }
 
     async getAllMusic() {
         const musics = await Music.find ( {} )
         return musics
     }
+    async edit(files,userId, musicId ,music){
+        const genresArray = await GenreService.findGenreByValue ( music )
+        const imgName = await FileService.createMusicImage ( files.image )
+        const updateMusic = await Music.findOneAndUpdate({music:musicId,author:userId},{
+            name:music.name,
+            image:imgName,
+            genre:genresArray,
+            description:music.description
+        })
+        return updateMusic
+    }
+
+
 }
 
 module.exports = new MusicService ()

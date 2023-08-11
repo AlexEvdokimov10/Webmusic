@@ -1,0 +1,31 @@
+.content {
+    margin-left: 250px;
+}
+.name {
+    width: 200px;
+    display: block;
+    margin-top: 20px;
+}
+.textarea {
+    width: 30%;
+    height: 20%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+}
+.img__music {
+    width: 290px;
+    height: 300px;
+    box-shadow: 0px -5px 10px 0px rgba(0, 0, 0, 0.5);
+}
+.edit__button {
+    margin-left: 300px;
+}
+.div__uploader{
+    margin-left: 50%;
+    position: absolute;
+}

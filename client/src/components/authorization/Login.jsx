@@ -8,25 +8,24 @@ import {Button , Form , message} from "antd";
 import {useInput} from "../../hooks/useInput";
 import EmailValidations from "../validations/EmailValidations";
 import PasswordValidations from "../validations/PasswordValidations";
-import {useCheckAuth} from "../../hooks/useCheckAuth";
+import {useCallMessage} from "../../hooks/useCallMessage";
 
 const Login = () => {
     const email=useInput('',{isEmpty:true,minLength:5})
     const password=useInput('',{isEmpty:true,minLength:5})
-    const errorMessage = useSelector(state =>state.message.error)
-    const successMessage = useSelector(state =>state.message.successMessage)
+    const errorMessage = useSelector(state =>state.error.error)
+    const successMessage = useSelector(state =>state.error.successMessage)
     const [messageApi, contextHolder] = message.useMessage();
+    const isAuth = useSelector(state=>state.user.isAuth)
+    const navigate = useNavigate()
     const dispatch = useDispatch ()
 
-
-
-
     const loginUser =  () => {
-        dispatch ( login ( email.value , password.value ) )
+        dispatch ( login ( email.value , password.value,navigate ) )
     }
+    
 
-
-    useCheckAuth(errorMessage,successMessage,messageApi,dispatch)
+    useCallMessage(errorMessage,successMessage,messageApi,dispatch)
 
     const checkInvalid = () => {
         return !email.inputIsValid || !password.inputIsValid
@@ -42,6 +41,7 @@ const Login = () => {
                 <EmailValidations email={email}/>
                 <MyInput onBlur={ e=>password.onBlur(e)} value={password.value} onChange={ e=>password.onChange(e)} name="password" type="password" placeholder="MyInput password..."/>
                 <PasswordValidations password={password}/>
+                <NavLink to={"/restore"}>If you forget password</NavLink>
                 <Button disabled={checkInvalid()} className="auth-button"  htmlType="submit">Login</Button>
             </Form>
     );

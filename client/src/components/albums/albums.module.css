@@ -1,0 +1,27 @@
+.albums__play{
+    display: none;
+    font-size: 20px;
+}
+.albums__cover{
+    width: 150px;
+    height: 120px;
+    position: absolute;
+    color: white;
+}
+.albums__cover:hover + .albums__play{
+    display: block;
+    font-size: 60px;
+    position: absolute;
+    margin-left: 45px;
+    margin-top: 40px;
+}
+.albums__play:hover{
+    display: block;
+    font-size: 60px;
+    position: absolute;
+    margin-left: 45px;
+    margin-top: 40px;
+}
+.albums__name{
+    margin-top: 120px;
+}
