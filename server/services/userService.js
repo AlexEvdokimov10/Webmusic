@@ -45,6 +45,18 @@ class UserService {
         await user.save()
     }
 
+    async sendLinkOnEmail(email){
+        const restoreLink = await this.restoreUserByEmail(email)
+        console.log(restoreLink)
+        await mailService.sendActivationMail(email,`${config.get("API_URL")}/api/auth/restoreEmail/${restoreLink}`)
+    }
+    async restorePassword(email){
+        const restoreLink = await this.restoreUserByEmail(email)
+        console.log(restoreLink)
+        await mailService.sendActivationMail(email,`${config.get("API_URL")}/api/auth/restoreEmail/${restoreLink}`)
+    }
+
+
     async restoreUserByEmail(email){
         const user =await User.findOne({email:email})
         if(!user){
@@ -60,8 +72,7 @@ class UserService {
             user.restoreLink = restoreLink
             await user.save()
         }
-        await mailService.sendActivationMail(email,`${config.get("API_URL")}/api/auth/restoreEmail/${restoreLink}`)
-
+        return restoreLink
     }
 
 

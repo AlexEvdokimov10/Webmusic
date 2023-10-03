@@ -57,7 +57,7 @@ class UserController {
     async restorePassword( req, res, next){
         try{
             const email = req.query.email
-            await userService.restoreUserByEmail(email)
+            await userService.sendLinkOnEmail(email)
             return res.json({message:"Message was sent on your email"})
         } catch ( e ) {
             next(e)
@@ -67,7 +67,7 @@ class UserController {
     async restoreByEmail(req,res,next){
         try{
             const email = req.query.email
-            await userService.restoreUserByEmail(email)
+            await userService.sendLinkOnEmail(email)
             return res.json({message:"Message was sent on your email"})
         } catch ( e ) {
             next(e)
