@@ -11,6 +11,7 @@ import {
 import {API_URL} from "../config";
 import {getError , getSuccess} from "../reducers/errorReducer";
 import {setRoles} from "../reducers/roleReducer";
+import {getAllGenres} from "./genres";
 
 
 export const registration = ( nickname , email , password ) => {
@@ -59,6 +60,7 @@ export const login = ( email , password , navigate ) => {
             } )
             dispatch ( setUser ( response.data.user ) )
             localStorage.setItem ( 'token' , response.data.token )
+            dispatch(getAllGenres())
             navigate("/home")
         } catch ( e ) {
             dispatch ( getError ( "Email or password doesn't match" ) )
@@ -107,6 +109,7 @@ export const auth = () => {
             } )
             dispatch ( setUser ( response.data.user ) )
             localStorage.setItem ( 'token' , response.data.token )
+            dispatch(getAllGenres())
         } catch ( e ) {
             localStorage.removeItem ( "token" )
         }

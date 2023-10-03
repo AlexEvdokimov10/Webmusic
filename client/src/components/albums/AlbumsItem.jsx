@@ -5,19 +5,17 @@ import styles from "./albums.module.css"
 import {
     CaretRightOutlined,
     PauseOutlined,
-    StepBackwardOutlined,
-    StepForwardOutlined,
-    StopOutlined
 } from "@ant-design/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {getMusicsByAlbum} from "../../actions/albums";
-import {setPause, setPlay} from "../../reducers/playerReducer";
+import {useNavigate} from "react-router-dom";
 
 const AlbumsItem = ({name, id, image, playMusic,setStatusPause}) => {
-    const currentAlbums = useSelector(state => state.albums.currentAlbums)
+    const currentAlbums = useSelector(state => state.albums.playedAlbum)
     const albumImage = API_URL + image
     const dispatch = useDispatch()
     const pause = useSelector(state => state.player.pause)
+    const navigate = useNavigate()
 
     function playAlbum() {
         playMusic({id: id, name: name, image: image})
@@ -27,12 +25,10 @@ const AlbumsItem = ({name, id, image, playMusic,setStatusPause}) => {
 
     return (
         <div>
-            <Col span={4} style={{marginLeft: 30}}>
+            <Col span={4} className={styles.albumItem__col}>
                 <Card
                     hoverable
-                    style={{
-                        width: 150, height: 200
-                    }}
+                   className={styles.albumItem__card}
                     cover={<div className={styles.albums__cover}><img className={styles.albums__cover} alt="example"
                                                                       src={albumImage}/>
                         {pause || id !== currentAlbums.id ? <CaretRightOutlined className={styles.albums__play} onClick={() => playAlbum()}/> :
@@ -40,7 +36,7 @@ const AlbumsItem = ({name, id, image, playMusic,setStatusPause}) => {
                         }
                     </div>}
                 >
-                    <div className={styles.albums__name}>{name}</div>
+                    <div onClick={()=>{navigate(`/albums/${id}`)}} className={styles.albums__name}>{name}</div>
                 </Card>
             </Col>
         </div>

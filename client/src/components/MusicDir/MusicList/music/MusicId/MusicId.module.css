@@ -1,7 +1,7 @@
 .music__card{
     display: flex;
 }
-.music__icon{
+.player__icon{
     width: 300px;
     height: 260px;
 }
@@ -15,7 +15,7 @@
     font-size: 23px;
     font-weight: bold;
 }
-.avatar{
+.header__avatar{
     margin-top: 10px;
     text-decoration: none;
 }

@@ -1,5 +1,4 @@
 import React from 'react';
-import "./input.scss"
 import {Input} from "antd";
 
 const MyInput = ( {...props}) => {

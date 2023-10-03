@@ -30,7 +30,7 @@ const RestorePasswd = () => {
         confirmPassword.setValue("")
     }
     return (
-        <div className={styles.restore__div}>
+        <div className={styles.restore}>
             {contextHolder}
             Restore Password
             <MyInput className={styles.restore__input} onBlur={ e=>password.onBlur(e)} value={password.value} onChange={ e=>password.onChange(e)} name="password" type="password" placeholder="MyInput password..."/>

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {memo} from 'react';
 import UserData from "./UserData";
 
-const AdminPanel = () => {
+const AdminPanel =() => {
     return (
         <div>
             <UserData/>

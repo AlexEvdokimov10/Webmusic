@@ -1,6 +1,7 @@
 import React , {useEffect , useState} from 'react';
 import Logo from "../../assets/musiclab_logo.svg";
 import MyInput from "../UI/input/MyInput";
+import styles from "./authorization.module.css"
 import {auth , login} from "../../actions/user";
 import {NavLink , useLocation , useNavigate} from "react-router-dom";
 import {useDispatch , useSelector} from "react-redux";
@@ -9,14 +10,15 @@ import {useInput} from "../../hooks/useInput";
 import EmailValidations from "../validations/EmailValidations";
 import PasswordValidations from "../validations/PasswordValidations";
 import {useCallMessage} from "../../hooks/useCallMessage";
+import InputPassword from "../UI/input/InputPassword";
 
 const Login = () => {
     const email=useInput('',{isEmpty:true,minLength:5})
     const password=useInput('',{isEmpty:true,minLength:5})
+    const [showPassword,setShowPassword] = useState(false)
     const errorMessage = useSelector(state =>state.error.error)
     const successMessage = useSelector(state =>state.error.successMessage)
     const [messageApi, contextHolder] = message.useMessage();
-    const isAuth = useSelector(state=>state.user.isAuth)
     const navigate = useNavigate()
     const dispatch = useDispatch ()
 
@@ -33,13 +35,13 @@ const Login = () => {
 
     return (
 
-            <Form className="authorization" onFinish={loginUser}>
+            <Form className={styles.authorization__form} onFinish={loginUser}>
                 {contextHolder}
                 <img width={ 100 } height={ 60 } src={ Logo }/>
-                <div className="auth-header">Login</div>
-                <MyInput onBlur={ e=>email.onBlur(e)} value={email.value} onChange={ e=>email.onChange(e)} name="email" type="email" placeholder="MyInput email..." />
+                <div className={styles.auth__header}>Login</div>
+                <MyInput  onBlur={ e=>email.onBlur(e)} value={email.value} onChange={ e=>email.onChange(e)} name="email" type="email" placeholder="Enter email..." />
                 <EmailValidations email={email}/>
-                <MyInput onBlur={ e=>password.onBlur(e)} value={password.value} onChange={ e=>password.onChange(e)} name="password" type="password" placeholder="MyInput password..."/>
+                <InputPassword onBlur={ e=>password.onBlur(e)} value={password.value} onChange={ e=>password.onChange(e)} name="password" type={showPassword ? "text":"password"} placeholder="Enter password..."/>
                 <PasswordValidations password={password}/>
                 <NavLink to={"/restore"}>If you forget password</NavLink>
                 <Button disabled={checkInvalid()} className="auth-button"  htmlType="submit">Login</Button>

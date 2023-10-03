@@ -1,13 +1,13 @@
-.music-name {
+.card__musicName {
   font-size: 18px;
   font-style: normal;
   font-weight: bold;
   text-align: center;
-  width: 50%;
+  max-width: 50%;
   margin-top: 10px;
 }
 
-.d-flex {
+.card__control {
   display: flex;
   top: 15%;
   position: absolute;
@@ -34,33 +34,35 @@
   font-size: 12px;
   cursor: pointer;
 }
-.card .music-icon {
+.card .card__musicIcon {
   box-shadow: 0px -5px 10px 0px rgba(0, 0, 0, 0.5);
+  width: 180px;
+  height: 142px;
 }
-.card:hover .music-time {
+.card:hover .card__musicTime {
   display: none;
 }
-.card:hover .music-download {
+.card:hover .card__musicDownload {
   width: 120px;
   height: 100px;
   display: block;
 }
-.card:hover .music-delete {
+.card:hover .card__musicDelete {
   width: 120px;
   height: 100px;
   display: block;
 }
-.card:hover .music-icon {
+.card:hover .card__musicIcon {
   margin-left: 100px;
   opacity: 0.2;
 }
-.card:hover .music-play {
+.card:hover .card__musicPlay {
   width: 100px;
   height: 100px;
   display: block;
   cursor: pointer;
 }
-.card:hover .music-settings {
+.card:hover .card__musicSettings {
   cursor: pointer;
 }
 

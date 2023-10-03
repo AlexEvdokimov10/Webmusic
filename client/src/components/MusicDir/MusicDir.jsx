@@ -13,31 +13,28 @@ import FilterMusic from "../filter/FilterMusic";
 import Loader from "../loader/Loader";
 import Chat from "../chat/Chat";
 import Music from "./MusicList/music/Music";
+import SearcherMusic from "../searchMusic/SearcherMusic";
 
 const MusicDir = ({applyFilter,search,musicIsLoaded,searchName,sort,checkedList,setCheckedList,setSort}) => {
     const dispatch = useDispatch()
     const page = useSelector(state => state.musics.page)
     const totalCountPages = useSelector(state=>state.musics.totalPage)
 
+    useEffect(()=>{
+        dispatch(setPage(0))
+    },[])
     const changePage = (page) => {
         dispatch(setPage(page))
     }
 
     return (
             <div className="body wrapper clear">
-                <div className="content">
-                    <div style={{display:"flex"}}>
-                        <div className="search-block">
-                            <img width={20} height={20} src={FindLogo} alt="Search"/>
-                            <MyInput style={{borderRadius:"50px",marginLeft:"2px"}} value={searchName} onChange={e=>search(e)} className="find-input" placeholder="Search..."/>
-                            <FilterMusic applyFilter={applyFilter} checkedList={checkedList} setCheckedList={setCheckedList}/>
-                        </div>
+                    <div className="content">
+                        <SearcherMusic checkedList={checkedList} setCheckedList={setCheckedList} search={search} searchName={searchName} applyFilter={applyFilter}/>
                         <SelectMusics sort={sort} onChange={(value)=>setSort(value)}/>
                     </div>
-                    {musicIsLoaded ? <Loader/> : <MusicList/>
-                    }
-                </div>
-                <Pagination defaultCurrent={page+1} onChange={(page) => changePage(page-1)}  total={totalCountPages*10} />
+                    {musicIsLoaded ? <Loader/> : <MusicList/>}
+                <Pagination defaultCurrent={1} onChange={(page) => changePage(page-1)}  total={totalCountPages*10} />
                 <Chat/>
             </div>
     );

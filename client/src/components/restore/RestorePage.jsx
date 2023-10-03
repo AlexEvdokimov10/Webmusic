@@ -21,7 +21,7 @@ const RestorePage = () => {
         dispatch(sendToRestorePasswd(email.value))
     }
     return (
-        <div className={styles.restore__div}>
+        <div className={styles.restore}>
             {contextHolder}
             INPUT YOUR EMAIL
             <MyInput className={styles.restore__input} onBlur={ e=>email.onBlur(e)} value={email.value} onChange={ e=>email.onChange(e)} name="email" type="email" />

@@ -28,6 +28,8 @@ input{
 .find-input {
   width:250px;
   height: 25px;
+  border-radius: 50px;
+  margin-left: 2px;
 }
 
 .audio-track {
@@ -47,4 +49,8 @@ input{
   width: 0;
   height: 3px;
   background-color: #474747
+}
+
+.content{
+display: flex;
 }

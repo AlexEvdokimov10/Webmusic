@@ -1,5 +1,5 @@
 import axios from "axios";
-import {addAlbums, getMusics, setAlbums, setCurrentAlbum} from "../reducers/albumsReducer";
+import {addAlbums, getPlayedMusics, setAlbums, setPlayedAlbum} from "../reducers/albumsReducer";
 
 export function createAlbums(albumName,albumImage,genres,musics){
     return async dispatch =>{
@@ -45,6 +45,6 @@ export function getMusicsByAlbum(id){
                 id:id
             }
         } )
-        dispatch(getMusics(response.data))
+        dispatch(getPlayedMusics(response.data))
     }
 }

@@ -7,6 +7,7 @@ import {CaretRightOutlined , PauseOutlined , StepForwardOutlined} from "@ant-des
 import {playCurrentMusic , setActiveAuthorByMusic} from "../../actions/musics";
 import {setActiveMusic , setEnd , setPause , setPlay} from "../../reducers/playerReducer";
 import {setCurrentPlaylist , setSongIndex} from "../../reducers/playlistReducer";
+import styles from './playlists.module.css'
 
 const Playlists = () => {
     const musics = useSelector ( state => state.playlist.playlistMusics )
@@ -84,7 +85,7 @@ const Playlists = () => {
 
 
     return (
-        <div style={{width:200,position:"absolute"}}>
+        <div className={styles.playlists}>
             Playlists
             <Menu items={ playlists }>
             </Menu>

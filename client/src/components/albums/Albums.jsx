@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Card , Col , Row} from "antd";
-import Meta from "antd/es/card/Meta";
 import {PlusOutlined} from "@ant-design/icons";
 import {NavLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -8,15 +7,16 @@ import AlbumsItem from "./AlbumsItem";
 import {getAlbums} from "../../actions/albums";
 import {playCurrentMusic, setActiveAuthorByMusic} from "../../actions/musics";
 import {setActiveMusic, setEnd, setPause, setPlay} from "../../reducers/playerReducer";
-import {setCurrentAlbum, setSongIndex} from "../../reducers/albumsReducer";
-import {setCurrentPlaylist} from "../../reducers/playlistReducer";
+import {setPlayedAlbum, setSongIndex} from "../../reducers/albumsReducer";
+import styles from './albums.module.css'
+
 
 
 const Albums = () => {
     const albums = useSelector(state => state.albums.albums)?.map((album)=>{
         return <AlbumsItem name={album.name} id={album._id} image={album.image} playMusic={playMusic} setStatusPause={setStatusPause}/>
     })
-    const musics = useSelector ( state => state.albums.albumMusics )
+    const musics = useSelector ( state => state.albums.albumPlayedMusics )
     const songIndex = useSelector ( state => state.albums.songIndex )
     const activeMusic = useSelector ( state => state.player.activeMusic )
     const pause = useSelector ( state => state.player.pause )
@@ -47,7 +47,7 @@ const Albums = () => {
     }
 
     function playMusic(album){
-        dispatch(setCurrentAlbum(album))
+        dispatch(setPlayedAlbum(album))
     }
 
     function nextSong() {
@@ -77,17 +77,15 @@ const Albums = () => {
     },[isEnd])
 
     return (
-        <div className="disk">
             <div className="body wrapper clear">
                 <h1>Albums</h1>
-                {isCompositor && <NavLink className="add__albums" to="/createAlbums"> <PlusOutlined style={{fontSize:25,color:"black"}}/></NavLink>}
-                <div style={{marginTop:20}}>
+                {isCompositor && <NavLink to="/createAlbums"> <PlusOutlined className={styles.plus}/></NavLink>}
+                <div className={styles.albums}>
                     <Row justify="space-evenly">
                         {albums}
                     </Row>
                 </div>
             </div>
-        </div>
     );
 };
 

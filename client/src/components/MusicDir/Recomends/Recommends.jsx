@@ -35,6 +35,7 @@ const Recommends = () => {
         fetchMusics()
     }
 
+
     useEffect(() => {
         if(searchName.length<1) {
             fetchMusics()
@@ -47,9 +48,6 @@ const Recommends = () => {
         }
     },[sort,page])
 
-    const changePage = (page) => {
-        dispatch(setPage(page))
-    }
 
     return (
         <div className="body wrapper clear">

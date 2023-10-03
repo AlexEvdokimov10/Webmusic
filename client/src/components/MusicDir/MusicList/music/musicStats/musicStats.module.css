@@ -1,0 +1,26 @@
+.musicDate{
+    font-size: 18px;
+    font-style: normal;
+    font-weight: bold;
+    text-align: center;
+    width: 50%;
+    margin-top: 10px;
+}
+
+.musicSettings:hover{
+    cursor: pointer;
+}
+.stats{
+
+}
+
+.like{
+    width: 20px;
+    height: 19px;
+    cursor: pointer;
+}
+
+.duration {
+    font-size: 18px;
+    margin-left: 10px;
+}

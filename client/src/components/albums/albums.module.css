@@ -25,3 +25,18 @@
 .albums__name{
     margin-top: 120px;
 }
+
+.albums{
+    margin-top: 20px;
+}
+.plus {
+    font-size: 25px;
+    color:black;
+}
+.albumItem__card{
+    width: 150px;
+    height: 200px;
+}
+.albumItem__col{
+    margin-left: 30px;
+}

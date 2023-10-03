@@ -17,15 +17,13 @@ const MusicList = () => {
     }
 
     return (
-        <div>
-            <div style={{marginLeft:"90%"}}>
-                <Playlists/>
-            </div>
-            <div className="music-list">
+        <>
+            <Playlists/>
+            <div className="musicList">
                 {musics}
             </div>
             <AddPlaylistForm/>
-        </div>
+        </>
     );
 };
 

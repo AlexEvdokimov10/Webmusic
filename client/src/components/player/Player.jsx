@@ -115,19 +115,19 @@ const Player = () => {
     return (
         <div className={styles.player}>
             {pause ?
-                <MyImage className={styles.music__icon} src={playIcon} onClick={playClickHandler}/>
+                <MyImage className={styles.player__icon} src={playIcon} onClick={playClickHandler}/>
                 :
-                <MyImage className={styles.music__icon} src={pauseIcon} onClick={playClickHandler}/>
+                <MyImage className={styles.player__icon} src={pauseIcon} onClick={playClickHandler}/>
             }
             <div>
                 <div> Name: {activeMusic.name.split(".")[0]} </div>
                 <div> Author: {activeAuthor.nickname} </div>
             </div>
-            <MyImage className={styles.music__player} src={activeMusic.image ? musicImg : musicLogo}></MyImage>
+            <MyImage className={styles.player__image} src={activeMusic.image ? musicImg : musicLogo}></MyImage>
             <MusicProgress left={currentTime} right={duration} buffered={buffered}
                            onChange={(e) => (changeCurrentTime(e))}/>
-            <SoundOutlined style={{marginLeft: 'auto'}}/>
-            <VolumeProgress left={volume} right={100} onChange={(e) => (changeVolume(e))}/>
+            <SoundOutlined className={styles.player__volumeIcon}/>
+            <VolumeProgress className={styles.player__volume} left={volume} right={100} onChange={(e) => (changeVolume(e))}/>
         </div>
     );
 };

@@ -65,7 +65,7 @@ const EditMusic = () => {
 
 
     return (
-        <div className={ styles.content }>
+        <div className={ styles.body__content }>
             <div className={styles.div__uploader}>
                 <UploaderMusic accept=".png, .jpg, .jpeg" nameUploaders={ "Upload image" }
                                onChange={ ( event ) => editImage( event ) }/>

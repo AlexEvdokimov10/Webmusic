@@ -30,7 +30,6 @@ const AppRouter = () => {
     const isCompositor = useSelector(state=>state.user.isCompositor)
 
     useEffect( () => {
-        dispatch(getAllGenres())
         dispatch ( auth () )
     } , [isAuth])
 

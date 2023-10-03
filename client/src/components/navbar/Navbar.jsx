@@ -25,51 +25,51 @@ const Navbar = () => {
     const navigate = useNavigate()
 
     return (
-        <div className="navbar">
+        <div className="header">
             {isAuth &&
-                <div className="navbar">
-                    <img className="music-logo" width={100} height={60} src={Logo}/>
-                    <span className="menu">
+                <div className="header">
+                    <img className="header__logo" width={100} height={60} src={Logo}/>
+                    <span className="header__menu">
                     {isAdmin &&
                         <span style={{textAlign: "center"}}>
-                            <NavLink className="home" to="/panel"> <img className="icon" src={AdminLogo}/>
+                            <NavLink className="header__navMenuItem" to="/panel"> <img className="header__icon" src={AdminLogo}/>
                                 <p> Admin Panel </p>
                             </NavLink>
                             </span>
                     }
                         {isSupport &&
-                        <NavLink className="home" to="/chat">
-                            <PhoneOutlined style={{fontSize: 45}} className="icon"/>
+                        <NavLink className="header__navMenuItem" to="/chat">
+                            <PhoneOutlined style={{fontSize: 45}} className="header__icon"/>
                         <p> Send responses </p>
                     </NavLink>
                         }
-                        <NavLink className="home" to="/upload">
-                            <PlusCircleOutlined style={{fontSize: 45}} className="icon"/>
+                        <NavLink className="header__navMenuItem" to="/upload">
+                            <PlusCircleOutlined style={{fontSize: 45}} className="header__icon"/>
                             <p>Upload Music</p>
                         </NavLink>
-                        <NavLink className="home" to="/albums">
-                        <img className="icon" src={AlbumsLogo} alt=""/>
+                        <NavLink className="header__navMenuItem" to="/albums">
+                        <img className="header__icon" src={AlbumsLogo} alt=""/>
                         <p> Albums </p>
                     </NavLink>
-                    <NavLink className="home" to="/recommends">
-                        <img className="icon" src={RecommendLogo} alt=""/>
+                    <NavLink className="header__navMenuItem" to="/recommends">
+                        <img className="header__icon" src={RecommendLogo} alt=""/>
                         <p> Recommend </p>
                     </NavLink>
 
-                    <NavLink className="home" to="/home"> <img className="icon" src={HomeLogo} alt=""/>
+                    <NavLink className="header__navMenuItem" to="/home"> <img className="header__icon" src={HomeLogo} alt=""/>
                         <p> Home </p>
                     </NavLink>
 
-                    <NavLink to="editUser" style={{marginLeft: 10, textDecoration: "none"}}> {
+                    <NavLink to="editUser" className="header__editUser"> {
                         currentUser.avatar ?
-                            <Avatar className="avatar" src={avatar} size={52}/>
+                            <Avatar className="header__avatar" src={avatar} size={52}/>
                             :
-                            <Avatar className="avatar" size={52}> {currentUser.nickname.charAt(0).toUpperCase()} </Avatar>
+                            <Avatar className="header__avatar" size={52}> {currentUser.nickname.charAt(0).toUpperCase()} </Avatar>
                     }
-                        <p className="nickname"> {currentUser.nickname} </p>
+                        <p className="header__nickname"> {currentUser.nickname} </p>
                     </NavLink>
                     <p style={{textAlign: "center", fontWeight: "bold", marginLeft: 10}}>
-                        <img src={LogoutLogo} className="icon logout" onClick={() => {
+                        <img src={LogoutLogo} className="header__icon" onClick={() => {
                             dispatch(logout())
                             navigate("/login")
                         }} alt="Logout"/>
@@ -77,8 +77,8 @@ const Navbar = () => {
                     </p>
                         </span>
                 </div>}
-            {!isAuth && <NavLink to="/login" className="authorization"> Login </NavLink>}
-            {!isAuth && <NavLink to="/registration" className="authorization"> Registration </NavLink>}
+            {!isAuth && <NavLink to="/login" className="header__authorization"> Login </NavLink>}
+            {!isAuth && <NavLink to="/registration" className="header__authorization"> Registration </NavLink>}
         </div>
     )
 }

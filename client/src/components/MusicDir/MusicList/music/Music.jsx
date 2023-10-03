@@ -22,6 +22,7 @@ import moment from "moment/moment";
 import {Dropdown , Space} from "antd";
 import PlaylistDropdownButton from "../../../playlist/PlaylistDropdownButton";
 import PlaylistItem from "../../../playlist/PlaylistItem";
+import MusicStats from "./musicStats/MusicStats";
 
 
 const Music = ( { music} ) => {
@@ -80,51 +81,34 @@ const Music = ( { music} ) => {
     }
 
     return (
-        <div>
             <div className="card">
-                <div className="music-name">
+                <div className="card__musicName">
                     { music?.name?.charAt ( 0 ).toUpperCase () + music?.name?.slice ( 1 ) }
                 </div>
-                <div className="content">
-                    <img className="music-icon" width={ 180 } height={ 142 } src={ music.image ? musicImg : musicLogo }
-                         alt=""/>
-                    <div className="d-flex">
+                <div className="card__content">
+                    <img className="card__musicIcon" src={ music.image ? musicImg : musicLogo }
+                         alt="music-icon"/>
+                    <div className="card__control">
                         <img src={ downloadIcon } onClick={ ( event ) => downloadClickHandler ( event ) }
-                             className="music-download btn"/>
+                             className="card__musicDownload btn"/>
                         { checkMusic ?
                             <img src={ pause ? playIcon : pauseIcon } onClick={ playClickHandler }
-                                 className="music-play btn"/>
+                                 className="card__musicPlay btn"/>
                             :
                             <img src={ playIcon } onClick={ playClickHandler }
-                                 className="music-play btn"/>
+                                 className="card__musicPlay btn"/>
                         }
                         {isAuthor ? <img src={ deleteIcon } onClick={ ( event ) => deleteClickHandler ( event ) }
-                             className="music-delete btn"/>
+                             className="card__musicDelete btn"/>
                             :
                             <img src={ infoIcon } onClick={ () => router ( `/musics/${ music._id }` ) }
-                                                                   className="music-delete btn"/>
+                                                                   className="card__musicDelete btn"/>
                         }
                     </div>
                 </div>
-                <div>
-                    <img style={{width:20,height:19,cursor:"pointer"}} src={isLike ? likeActiveIcon:likeNoActiveIcon } onClick={likeClickHandler}/>
-                    <span style={{marginLeft:30}}>
-                        listens : {listens}
-                    </span>
-                    <span style={{fontSize:"18px", marginLeft:"10px"}}>
-                        { moment ( music?.time * 1000 ).format ( "mm:ss" ) }
-                    </span>
-                    <span>
-                        <PlaylistDropdownButton playlists={playlists}/>
-                    </span>
-                </div>
-                <span className="music-name">
-                    Upload date : { music?.date?.slice ( 0 , 10 ) }
-                </span>
-                <span> <SettingOutlined className="music-settings"
-                                        onClick={ () => router ( `/musics/${ music?._id }` ) }/> </span>
+                <MusicStats music={music} isLike={isLike} likeClickHandler={likeClickHandler} listens={listens} playlists={playlists}/>
             </div>
-        </div>
+
     );
 };
 

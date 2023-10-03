@@ -47,9 +47,9 @@ const UserData = () => {
                 <Column title="Avatar" dataIndex="avatar" key="avatar"  render={(_, record)=>(
                     <Space size="middle">
                         { record.avatar ?
-                        <Avatar className="avatar" src={API_URL+record.avatar} size={52}/>
+                        <Avatar className="header__avatar" src={API_URL+record.avatar} size={52}/>
                         :
-                        <Avatar className="avatar" size={52}> {record.nickname.charAt(0).toUpperCase()} </Avatar>
+                        <Avatar className="header__avatar" size={52}> {record.nickname.charAt(0).toUpperCase()} </Avatar>
                         }
                     </Space>
                 )

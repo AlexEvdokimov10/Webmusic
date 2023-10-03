@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getMusics, getProfileMusic, searchMusics} from "../../actions/musics";
 import {getPlaylists} from "../../actions/playlist";
 import {useFetching} from "../../hooks/useFetching";
+import styles from "./home.module.css"
 
 const Home = () => {
     const genres = useSelector ( state => state.genre.genres ).map((genre)=>{
@@ -16,7 +17,7 @@ const Home = () => {
     const [searchName,setSearchName] = useState('')
     const page = useSelector(state => state.musics.page)
     const [limit,setLimit] = useState(6)
-    const [checkedList, setCheckedList] = useState([]);
+    const [checkedList, setCheckedList] = useState(genres);
     const dispatch = useDispatch()
     const [fetchMusics,musicsIsLoaded] = useFetching( async ()=> {
             dispatch(getMusics(sort, limit, page, checkedList))
@@ -29,7 +30,9 @@ const Home = () => {
             fetchMusics()
         }
         dispatch(getPlaylists())
-    },[sort,page,checkedList])
+    },[sort,page,genreValue])
+
+
     useEffect(()=>{
         if(searchName.length>0) {
             dispatch(searchMusics(searchName, sort, page, limit, checkedList))
@@ -39,7 +42,6 @@ const Home = () => {
     useEffect(()=>{
         setCheckedList(genres)
     },[genreValue])
-
 
     function searchChangeHandler( e ) {
         setSearchName(e.target.value)
@@ -51,7 +53,7 @@ const Home = () => {
     }
     return (
         <div>
-            <h1 style={{marginLeft:250,marginTop:20}}>My directory</h1>
+            <h1 className={styles.title}>My directory</h1>
             <MusicDir applyFilter={applyFilter} search={searchChangeHandler} musicIsLoaded={musicsIsLoaded} searchName={searchName} sort={sort} checkedList={checkedList} setCheckedList={setCheckedList} setSort={setSort}/>
         </div>
     );
